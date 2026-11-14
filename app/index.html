@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><meta name="theme-color" content="#020409">
 </head><body>
-<!-- Pulsar · NASA Space Apps 2026 · Team Quantam Astronauts. Code written with AI assistance: Anthropic Claude (Claude Code). See README, "Use of AI". -->
+<!-- Pulsar · NASA Space Apps 2026 · Team Quantum Astronauts. Code written with AI assistance: Anthropic Claude (Claude Code). See README, "Use of AI". -->
 <meta name="ai-assistance" content="Code, interface and synthetic data generator written with Anthropic Claude (Claude Code), directed and reviewed by the team">
 <title>Pulsar: Crew Health Monitor</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -104,6 +104,73 @@ main { padding-block: 0 48px; }
 .tile b { display: block; font: 700 19px var(--display); font-stretch: 112%; }
 .tile small { display: block; color: var(--muted); font-size: 14.5px; margin-top: 4px; }
 @media (max-width: 700px) { .tiles { grid-template-columns: 1fr; } }
+/* ---------- Today: guided layout ---------- */
+.today { display: grid; gap: 28px; padding-block: 40px 20px; }
+.today .eyebrow { color: var(--accent); }
+.intro { position: relative; padding: clamp(24px, 4vw, 40px); border-radius: 22px; border: 1px solid var(--line-2); background: linear-gradient(160deg, rgba(17, 26, 43, .92), rgba(6, 11, 21, .92)); }
+.intro h2 { font-size: clamp(24px, 3.2vw, 38px); line-height: 1.12; margin: 12px 0 24px; max-width: 22em; text-wrap: balance; }
+.how3 { list-style: none; margin: 0 0 22px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.how3 li { display: flex; gap: 14px; align-items: flex-start; }
+.how3 li > b { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--accent); color: var(--accent); font: 700 15px var(--display); }
+.how3 strong { display: block; font-size: 16px; margin-bottom: 4px; }
+.how3 span { color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+.how3 span strong { color: var(--ink); }
+@media (max-width: 800px) { .how3 { grid-template-columns: 1fr; } }
+.ctx { margin: 0; padding: 14px 18px; border-radius: 14px; border: 1px dashed rgba(255, 122, 61, .45); background: rgba(255, 122, 61, .06); color: #d8dfeb; font-size: 15px; line-height: 1.55; }
+.ctx b { color: var(--ink); }
+.verdict { padding-block: 10px 0; }
+.verdict .vw { display: flex; align-items: center; gap: 18px; margin-top: 12px; font: 800 clamp(48px, 8vw, 104px)/.95 var(--display); font-stretch: 118%; letter-spacing: -.01em; color: var(--st-mark, var(--ink)); }
+.verdict .vw .dot { width: .3em; height: .3em; border-radius: 50%; background: currentColor; flex: none; animation: vpulse 2.4s ease-in-out infinite; }
+@keyframes vpulse { 50% { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) { .verdict .vw .dot { animation: none; } }
+.verdict.lv0 .vw { color: var(--ok); } .verdict.lv1 .vw { color: var(--watch); } .verdict.lv2 .vw { color: var(--act); } .verdict.lvx .vw { color: var(--muted); }
+.vsay { font-size: clamp(19px, 2.2vw, 26px); line-height: 1.35; margin: 16px 0 0; max-width: 34em; color: var(--ink); }
+.lvkey { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.lvkey span { display: inline-flex; align-items: center; gap: 8px; }
+.lvkey i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.lvkey .lv0 i { background: var(--ok); } .lvkey .lv1 i { background: var(--watch); } .lvkey .lv2 i { background: var(--act); } .lvkey .lvx i { background: #56627a; }
+.lvkey b { color: var(--ink); font-weight: 600; }
+.feature { padding: clamp(22px, 3.4vw, 36px); border-radius: 22px; border: 1px solid var(--line-2); border-left: 4px solid var(--st-mark, var(--line-2)); background: rgba(10, 16, 28, .9); }
+.feature.lv1 { --st-mark: var(--watch); } .feature.lv2 { --st-mark: var(--act); }
+.fgrid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(22px, 4vw, 48px); margin-top: 14px; }
+.feature h2 { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: clamp(26px, 3.4vw, 40px); line-height: 1.1; }
+.explain { margin: 20px 0 0; display: grid; gap: 14px; }
+.explain dt { font: 600 12px var(--display); font-stretch: 125%; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.explain dd { margin: 4px 0 0; font-size: 16.5px; line-height: 1.55; }
+.fig { margin: 22px 0 0; }
+.fchart { width: 100%; height: auto; display: block; }
+.fchart .band { fill: rgba(124, 196, 255, .14); }
+.fchart .mu { fill: none; stroke: rgba(124, 196, 255, .5); stroke-width: 1.5; stroke-dasharray: 4 5; }
+.fchart .ew { fill: none; stroke: var(--trace); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.fchart .pt { fill: #8b97ad; } .fchart .pt.lv1 { fill: var(--watch); } .fchart .pt.lv2 { fill: var(--act); }
+.fchart .lab { font: 600 13px var(--body); fill: var(--muted); } .fchart .lab.now { fill: var(--ink); font-weight: 700; }
+.fchart .ax { font: 500 12px var(--body); fill: #56627a; }
+.fig figcaption { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 10px; font-size: 13.5px; color: var(--muted); }
+.fig figcaption span { display: inline-flex; align-items: center; gap: 8px; }
+.fig i { display: inline-block; flex: none; }
+.k-ew { width: 18px; height: 3px; border-radius: 2px; background: var(--trace); } .k-band { width: 18px; height: 10px; border-radius: 3px; background: rgba(124, 196, 255, .25); } .k-pt { width: 9px; height: 9px; border-radius: 50%; background: var(--act); }
+.fright h3 { font-size: 20px; margin-bottom: 14px; }
+.small { font-size: 13.5px; margin-top: 12px; }
+@media (max-width: 900px) { .fgrid { grid-template-columns: 1fr; } }
+.block .blurb { color: var(--muted); max-width: 46em; margin: -4px 0 18px; }
+.olist { display: grid; gap: 10px; }
+.orow { border: 1px solid var(--line); border-left: 3px solid var(--st-mark, var(--line-2)); border-radius: 14px; background: rgba(10, 16, 28, .88); }
+.orow.lv1 { --st-mark: var(--watch); } .orow.lv2 { --st-mark: var(--act); }
+.orow summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 14px; padding: 14px 18px; }
+.orow summary::-webkit-details-marker { display: none; }
+.orow .t { flex: 1; min-width: 0; } .orow .t b { display: block; font-size: 16.5px; } .orow .t small { color: var(--muted); font-size: 14px; }
+.orow .cnt { color: var(--muted); font-size: 13px; min-width: 32px; text-align: right; }
+.orow .obody { padding: 0 18px 18px; display: grid; gap: 12px; }
+.orow .obody p { margin: 0; color: #c4cede; line-height: 1.55; }
+.m3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.m3 > div { border-top: 1px solid var(--line-2); padding-top: 16px; }
+.m3 b { font: 700 18px var(--display); font-stretch: 108%; }
+.m3 p { color: var(--muted); margin: 8px 0 0; font-size: 15px; line-height: 1.55; }
+@media (max-width: 800px) { .m3 { grid-template-columns: 1fr; } }
+.next2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.next2 .card p { margin: 8px 0 16px; color: var(--muted); }
+@media (max-width: 700px) { .next2 { grid-template-columns: 1fr; } }
+
 .stack { display: grid; gap: 24px; min-width: 0; }
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; }
 .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; align-items: start; }
@@ -377,7 +444,7 @@ footer { border-top: 1px solid var(--line); padding-block: 18px 30px; color: var
 </header>
 <div id="strip"></div>
 <main class="wrap" id="main"><div class="head"><div><p class="lead">Loading mission data…</p></div></div></main>
-<footer class="wrap"><span>Decision support only. Pulsar does not diagnose and is not a medical device.</span><span>Earth imagery: NASA, ISS027-E-012224 and ISS030-E-055569</span><span>All mission data is synthetic. Code written with AI assistance (Anthropic Claude).</span><span>NASA Space Apps 2026 · Team Quantam Astronauts (Sydney)</span></footer>
+<footer class="wrap"><span>Decision support only. Pulsar does not diagnose and is not a medical device.</span><span>Earth imagery: NASA, ISS027-E-012224 and ISS030-E-055569</span><span>All mission data is synthetic. Code written with AI assistance (Anthropic Claude).</span><span>NASA Space Apps 2026 · Team Quantum Astronauts (Sydney)</span></footer>
 <div class="toast" id="toast" hidden></div>
 <div class="lock" id="lock" hidden>
   <form id="unlockForm" class="card">
@@ -396,7 +463,7 @@ footer { border-top: 1px solid var(--line); padding-block: 18px 30px; color: var
    flag rules, validation scoring and the Mission Control handover packet.
    Pure functions, no DOM, so it runs in the browser and in Node tests.
    AI disclosure: written with Anthropic Claude (Claude Code), directed and reviewed
-   by Team Quantam Astronauts. All mission data it generates is synthetic. */
+   by Team Quantum Astronauts. All mission data it generates is synthetic. */
 (function (root) {
   'use strict';
 
@@ -922,7 +989,7 @@ const AREA = {
   nutrition:  { icon: 'utensils', name: 'Nutrition & metabolism' },
   behavioral: { icon: 'brain',  name: 'Behavioral health' },
 };
-const LV = ['Nominal', 'Watch', 'Act'];
+const LV = ['All clear', 'Watch', 'Act'];
 
 // What each body system does, how spaceflight affects it and what the crew can do about it.
 const SYS = {
@@ -1167,7 +1234,7 @@ function timeline() {
 function demoStrip() {
   const e = S.entries[S.cur], last = S.entries[S.entries.length - 1];
   const jumps = S.events.map(ev => `<button data-jump="${ev.start + 3}" aria-pressed="${e.day >= ev.start && e.day <= ev.end + 3}">${esc(ev.short)}</button>`).join('');
-  return `<div class="strip"><div class="wrap"><div><div class="eyebrow">Demo mission · replay</div><div class="day" id="mdNow">Day ${e.day} of ${last.day}</div></div>
+  return `<div class="strip"><div class="wrap"><div><div class="eyebrow">Demo mission · drag to any day</div><div class="day" id="mdNow">Day ${e.day} of ${last.day}</div></div>
     <input type="range" id="dayRange" min="0" max="${S.entries.length - 1}" value="${S.cur}" aria-label="Mission day">
     <div class="seg jumps">${jumps}<button data-jump="latest">Latest</button></div></div></div>`;
 }
@@ -1250,51 +1317,156 @@ function telemetry(title, sub) {
     <div class="legend"><span><i style="background:var(--trace)"></i>Now (smoothed)</span><span><i style="background:#34445f"></i>Personal baseline</span><span><i style="background:var(--watch)"></i>Watch</span><span><i style="background:var(--act)"></i>Act</span></div></section>`;
 }
 
+
+// ---------- plain-language layer: why each alert matters, and which reading to chart ----------
+const WHY = {
+  fever: 'A fever usually means an infection. In a closed cabin it can spread to the rest of the crew, and the immune system is weaker in space.',
+  temp: 'Body temperature creeping up over days can be the first sign of an infection, before you feel ill.',
+  symptoms: 'Symptoms that keep coming back are worth reporting early, while the ground can still help plan treatment.',
+  reactivation: 'Spaceflight stress lets dormant viruses such as cold sores wake up. It is a sign the immune system is under strain.',
+  sleep: 'Sleep loss slows reaction time and raises the risk of mistakes during demanding tasks like spacewalks.',
+  sleepcrit: 'Several nights under 5 hours sharply reduces alertness. Safety-critical work should be reviewed.',
+  hr: 'A resting heart rate above your normal can mean illness, dehydration, stress or poor recovery.',
+  hrhigh: 'A resting heart rate of 90 or more is high for a fit adult and should be re-measured and reviewed.',
+  bpsys: 'Fluid shifts in microgravity, stress and salt all push blood pressure up. Long-term, that strains the heart and vessels.',
+  bpdia: 'Fluid shifts in microgravity, stress and salt all push blood pressure up. Long-term, that strains the heart and vessels.',
+  bphigh: 'High blood pressure strains the heart and blood vessels. The higher it goes, the sooner it needs attention.',
+  bpsevere: 'Blood pressure this high can damage organs within hours. It needs the onboard medical procedure now.',
+  bplow: 'Low blood pressure can cause dizziness or fainting, especially when moving or exercising.',
+  exercise: 'Without daily exercise, astronauts lose bone and muscle fast: on average 1 to 2% of bone density a month.',
+  ared: 'Resistance training is the main defence against bone and muscle loss in weightlessness.',
+  resist: 'Resistance training is the main defence against bone and muscle loss in weightlessness. Missed sessions add up quickly.',
+  intake: 'Astronauts often under-eat in space. Eating less than planned leads to weight, muscle and bone loss.',
+  weight: 'Losing body mass in flight usually means eating too little or losing muscle.',
+  glucose: 'Blood sugar outside your usual range can point to under-eating, stress or a change in how the body handles sugar.',
+  glulow: 'Low blood sugar can cause confusion or fainting. It needs treating straight away.',
+  gluhigh: 'A high fingerstick reading is a prompt to recheck. One reading alone is not a diagnosis.',
+  mood: 'Low mood on long, isolated missions can affect sleep, teamwork and performance. It is easier to address early.',
+  stress: 'Sustained stress affects sleep, immunity and decision-making.',
+  social: 'Feeling isolated is a known risk on long missions, and it tends to build slowly.',
+  pvt: 'Slower reactions are an early sign of fatigue, often before you notice it yourself.',
+};
+const CHART_OF = { fever: 'temp', bphigh: 'bpsys', bpsevere: 'bpsys', bplow: 'bpsys', glulow: 'glucose', gluhigh: 'glucose', hrhigh: 'hr', sleepcrit: 'sleep', resist: 'exercise' };
+const LEVEL_TXT = [['All clear', 'Within your normal range.'], ['Watch', 'Drifting from your normal. Keep an eye on it.'], ['Act', 'Do something about it today.']];
+function levelKey() {
+  return `<div class="lvkey">${LEVEL_TXT.map(([w, t], k) => `<span class="lv${k}"><i></i><b>${w}</b> ${t}</span>`).join('')}<span class="lvx"><i></i><b>No data</b> Not logged recently, so it can't be checked.</span></div>`;
+}
+// The last four weeks of one reading, against the band Pulsar has learned as this person's normal.
+function focusChart(key) {
+  const W = 640, H = 200, padL = 8, padR = 104, padT = 16, padB = 26, i1 = S.cur, from = Math.max(0, i1 - 27);
+  const pts = AN.series[key].slice(from, i1 + 1);
+  const real = pts.filter(p => p.v != null);
+  if (real.length < 2) return '';
+  const band = pts.filter(p => p.mu != null);
+  const vals = real.map(p => p.v).concat(real.map(p => p.ew)).concat(band.flatMap(p => [p.mu - 2 * p.sd, p.mu + 2 * p.sd]));
+  let lo = Math.min(...vals), hi = Math.max(...vals); const pad = (hi - lo || 1) * .12; lo -= pad; hi += pad;
+  const d0 = pts[0].d, d1 = Math.max(pts[pts.length - 1].d, d0 + 1);
+  const X = d => padL + (d - d0) / (d1 - d0) * (W - padL - padR), Y = v => padT + (1 - (v - lo) / (hi - lo)) * (H - padT - padB);
+  let s = `<svg class="fchart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(C.METRICS[key].label)} over the last four weeks against your normal range">`;
+  if (band.length > 1) {
+    s += `<path class="band" d="M${band.map(p => `${X(p.d)},${Y(p.mu + 2 * p.sd)}`).join('L')}L${band.slice().reverse().map(p => `${X(p.d)},${Y(p.mu - 2 * p.sd)}`).join('L')}Z"/>`;
+    s += `<path class="mu" d="M${band.map(p => `${X(p.d)},${Y(p.mu)}`).join('L')}"/>`;
+    const lb = band[band.length - 1];
+    s += `<text class="lab" x="${W - padR + 8}" y="${Y(lb.mu) + 4}">your normal</text>`;
+  }
+  s += `<path class="ew" d="M${real.map(p => `${X(p.d)},${Y(p.ew)}`).join('L')}"/>`;
+  s += real.map(p => `<circle class="pt lv${p.level}" cx="${X(p.d)}" cy="${Y(p.v)}" r="${p.level ? 4.5 : 3}"/>`).join('');
+  const last = real[real.length - 1];
+  s += `<text class="lab now" x="${W - padR + 8}" y="${Y(last.ew) + 4}">${esc(C.fmt(key, last.ew))}</text>`;
+  s += `<text class="ax" x="${padL}" y="${H - 6}">Day ${d0}</text><text class="ax" x="${X(d1)}" y="${H - 6}" text-anchor="end">Day ${d1}</text></svg>`;
+  return s;
+}
+function demoContext() {
+  if (!S.demo) return '';
+  const d = S.entries[S.cur].day, ev = S.events.find(e => d >= e.start && d <= e.end + 3);
+  return ev ? `<p class="ctx"><b>Demo:</b> day ${d} of a simulated 180-day mission. Behind the scenes, this astronaut has <b>${esc(ev.label.toLowerCase())}</b> (days ${ev.start} to ${ev.end}). Pulsar isn't told that. Everything below is what it worked out from the daily readings alone.</p>`
+    : `<p class="ctx"><b>Demo:</b> day ${d} of a simulated 180-day mission. Use the slider above or jump to an event to see how Pulsar reacts.</p>`;
+}
+
 // ---------- views ----------
 function viewStatus() {
   const i = S.cur, row = AS[i], cov = C.coverage(AN, i);
   const overall = Math.max(0, ...C.AREA_KEYS.map(a => row.lv[a]));
-  const n = row.flags.length, words = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'];
+  const n = row.flags.length;
   const gaps = C.AREA_KEYS.filter(a => !row.lv[a] && cov[a].state === 'missing'), learn = C.AREA_KEYS.filter(a => !row.lv[a] && cov[a].state === 'learning');
   const missingAll = [...new Set(C.AREA_KEYS.flatMap(a => cov[a].missing))];
   const list = a => a.join(', ').toLowerCase();
-  const title = n ? `${words[n] || n} thing${n === 1 ? '' : 's'} to look at today`
-    : gaps.length ? 'Some readings are missing'
-    : learn.length ? 'Learning your normal' : 'All clear today';
-  const lead = n ? 'Compared with your own normal, not a population average.'
-    : gaps.length ? `Log ${list(missingAll)} so Pulsar can check every area.`
-    : learn.length ? 'Alerts start after about 10 days of check-ins.' : 'Every reading is within your normal range.';
-  // Area cards: one plain line each. Tapping one opens its detail panel below.
+  const CLIN = ['bpsevere', 'glulow', 'fever', 'bphigh', 'gluhigh', 'sleepcrit', 'hrhigh', 'bplow'];
+  const flags = row.flags.slice().sort((x, y) => y.level - x.level || (CLIN.includes(x.id) ? 0 : 1) - (CLIN.includes(y.id) ? 0 : 1));
+  const top = flags[0], rest = flags.slice(1);
+
+  // 1. What Pulsar is (first-time orientation, can be hidden)
+  let introHidden = false; try { introHidden = localStorage.getItem('pulsar.intro') === 'hidden'; } catch (e) { /* optional */ }
+  const intro = introHidden ? '' : `<section class="intro">
+    <div class="eyebrow">What Pulsar does</div>
+    <h2>A daily health check for astronauts, when a doctor is minutes or days away.</h2>
+    <ol class="how3">
+      <li><b>1</b><span><strong>Log a few readings each morning</strong>Sleep, heart rate, temperature, blood pressure, food, mood. About two minutes.</span></li>
+      <li><b>2</b><span><strong>Pulsar compares them with your normal</strong>It learns what is normal for you, then flags anything drifting away from it.</span></li>
+      <li><b>3</b><span><strong>You get clear next steps</strong>Every flag comes with a checklist, and Mission Control gets a signed summary when the radio link returns.</span></li>
+    </ol>
+    <button class="btn sm" id="hideIntro">${ico('check')}Got it</button></section>`;
+
+  // 2. The verdict
+  const word = n ? LV[overall] : gaps.length ? 'Incomplete' : learn.length ? 'Learning' : LV[0];
+  const ocls = n ? overall : gaps.length || learn.length ? 'x' : 0;
+  const say = n ? (top ? `${esc(top.title)}${rest.length ? `, plus ${rest.length} other reading${rest.length === 1 ? '' : 's'} away from your normal` : ''}.` : '')
+    : gaps.length ? `Some readings weren't logged (${esc(list(missingAll))}), so Pulsar can't check every area.`
+    : learn.length ? 'Pulsar is still learning your normal. Alerts start after about 10 days of check-ins.' : 'Every reading is within your normal range. Nothing to do today.';
+  const verdict = `<section class="verdict lv${ocls}"><div class="eyebrow">Mission day ${S.entries[i].day} · today's status</div>
+    <div class="vw"><span class="dot"></span>${esc(word)}</div><p class="vsay">${say}</p>${levelKey()}</section>`;
+
+  // 3. The most important thing, explained
+  const metricOf = f => CHART_OF[f.id] || (C.METRICS[f.id] ? f.id : null);
+  const why = f => WHY[f.id] || (f.metric && WHY[f.metric]) || '';
+  const checklist = f => {
+    const keys = (f.actions || []).map((_, k) => `${f.id}@${f.since}#${k}`), done = keys.filter(k => S.done[k]).length;
+    return { done, total: keys.length, html: `<ul class="checks">${(f.actions || []).map((a, k) => `<li><label><input type="checkbox" data-done="${esc(keys[k])}" ${S.done[keys[k]] ? 'checked' : ''}><span>${esc(a)}</span></label></li>`).join('')}</ul>` };
+  };
+  let feature = '';
+  if (top) {
+    const m = metricOf(top), cl = checklist(top);
+    feature = `<section class="feature lv${top.level}"><div class="eyebrow">Most important right now</div>
+      <div class="fgrid"><div class="fleft">
+        <h2><span class="icon-sq">${ico(FICO[top.id] || 'alert')}</span>${esc(top.title)}<span class="badge">${LV[top.level]}</span></h2>
+        <dl class="explain"><div><dt>What Pulsar saw</dt><dd>${esc(top.text || top.short || '')}</dd></div>
+          <div><dt>Why it matters</dt><dd>${esc(why(top))}</dd></div></dl>
+        ${m ? `<figure class="fig">${focusChart(m)}<figcaption><span><i class="k-ew"></i>Your readings (smoothed)</span><span><i class="k-band"></i>Your normal range, learned from your readings 10 to 45 days ago</span><span><i class="k-pt"></i>Flagged day</span></figcaption></figure>` : ''}
+      </div><div class="fright"><h3>What to do now</h3>${cl.html}${recheckForm(top)}<p class="muted small">${cl.done} of ${cl.total} done · open since day ${top.since}${top.level === 2 ? ' · goes to Mission Control as a priority' : ''}</p></div></div></section>`;
+  }
+
+  // 4. Everything else that was flagged
+  const others = rest.length ? `<section class="block"><div class="sec"><h2>Also flagged</h2><span class="note">Tap one to see why it matters and what to do</span></div>
+    <div class="olist">${rest.map(f => { const cl = checklist(f); return `<details class="orow lv${f.level}" data-act="${esc(f.id)}" ${S.openAct === f.id ? 'open' : ''}><summary><span class="icon-sq">${ico(FICO[f.id] || 'alert')}</span><span class="t"><b>${esc(f.title)}</b><small>${esc(f.short || '')}</small></span><span class="badge">${LV[f.level]}</span><span class="cnt">${cl.done}/${cl.total}</span></summary>
+      <div class="obody"><p><b>Why it matters.</b> ${esc(why(f))}</p>${cl.html}${recheckForm(f)}</div></details>`; }).join('')}</div></section>` : '';
+
+  // 5. Which parts of the body
   const areas = C.AREA_KEYS.map(a => {
     const lv = row.lv[a], fl = row.flags.filter(f => f.areas.includes(a)), c = cov[a];
     const cls = lv ? lv : c.state === 'ok' ? 0 : 'x', badge = lv ? LV[lv] : c.state === 'missing' ? 'No data' : c.state === 'learning' ? 'Learning' : LV[0];
-    const why = fl.length ? esc(fl[0].title) : c.state === 'missing' ? `No ${esc(list(c.missing))} logged` : c.state === 'learning' ? 'Learning your normal' : 'Normal for you';
+    const line = fl.length ? esc(fl.map(f => f.title).slice(0, 2).join(' · ')) : c.state === 'missing' ? `No ${esc(list(c.missing))} logged` : c.state === 'learning' ? 'Learning your normal' : 'Normal for you';
     return `<article class="card area mini lv${cls}${S.area === a ? ' sel' : ''}" data-area="${a}"><div class="ah"><span class="icon-sq">${ico(AREA[a].icon)}</span><h3>${esc(AREA[a].name)}</h3><span class="badge">${badge}</span></div>
-      <div class="why">${why}</div></article>`;
+      <div class="why">${line}</div></article>`;
   }).join('');
   const detail = S.area && SYS[S.area] ? `<div style="margin-top:14px">${sysDetail(S.area, row, cov)}</div>` : '';
-  const CLIN = ['bpsevere', 'glulow', 'fever', 'bphigh', 'gluhigh', 'sleepcrit', 'hrhigh', 'bplow'];
-  const rank = f => (CLIN.includes(f.id) ? 0 : 1);
-  const flags = row.flags.slice().sort((x, y) => y.level - x.level || rank(x) - rank(y));
-  const openId = flags.some(f => f.id === S.openAct) ? S.openAct : flags[0] && flags[0].id;
-  const TOP = 3, shown = S.allActs ? flags : flags.slice(0, TOP);
-  const actions = n ? shown.map(f => actionCard(f, f.id === openId)).join('') + (n > TOP ? `<button class="btn block" id="moreActs">${S.allActs ? 'Show fewer' : `Show ${n - TOP} more`}</button>` : '')
-    : gaps.length ? `<div class="card lvx"><div class="banner"><span class="ring">${ico('clip')}</span><span>Log the missing readings<small>Without them Pulsar can't say these areas are fine.</small></span></div><button class="btn primary" style="margin-top:14px" data-go="checkin">${ico('clip')}Open check-in</button></div>`
-    : `<div class="card lv0"><div class="banner"><span class="ring">${ico('check')}</span><span>Nothing to do today<small>Keep checking in so your normal stays up to date.</small></span></div></div>`;
-  const ocls = overall || (!gaps.length && !learn.length) ? overall : 'x', olab = overall ? LV[overall] : gaps.length ? 'Incomplete' : learn.length ? 'Learning' : LV[0];
+  const body = `<section class="block"><div class="sec"><h2>Where in the body</h2><span class="note">Tap an area for details</span></div>
+    <p class="blurb">NASA groups the health risks of spaceflight into a few areas. Each one below is a set of your readings linked to one of those risks.</p>
+    <div class="bodymap"><div class="figure">${bodyMap(row, cov)}</div><div class="areas">${areas}</div></div>${detail}</section>`;
+
+  // 6. How Pulsar decides, plus what's next
   const R = C.routine(AN, i), due = R.tasks.filter(t => t.state === 'due' || t.state === 'overdue');
-  return head(`Mission day ${S.entries[i].day}`, esc(title), esc(lead), `<span class="badge lv${ocls}">${olab}</span>`) +
-    `<div class="layout"><div class="stack">
-      <section><div class="sec"><h2>${n ? 'What to do' : 'Today'}</h2>${n ? '<span class="note">Tick steps as you go</span>' : ''}</div><div class="stack" style="gap:14px">${actions}</div></section>
-      <section><div class="sec"><h2>Your body</h2><span class="note">Tap an area for details</span></div>
-        <div class="bodymap"><div class="figure">${bodyMap(row, cov)}</div><div class="areas">${areas}</div></div>${detail}</section>
-    </div><aside class="stack">
-      <section class="card"><div class="eyebrow">Due today</div>
-        ${due.length ? `<ul class="rows rt" style="margin-top:10px">${due.map(t => `<li><span class="icon-sq">${ico(RICO[t.id])}</span><span class="txt">${esc(t.label)}</span>${t.state === 'overdue' ? `<span class="badge lv2">${t.late} d late</span>` : ''}</li>`).join('')}</ul>
-          <button class="btn primary block" style="margin-top:14px" data-go="checkin">${ico('clip')}Check in</button>`
-        : `<p class="muted" style="margin:8px 0 0">All measurements done. ${R.streak}-day streak.</p>`}</section>
-      <section class="card"><div class="eyebrow">Next ground contact</div><p class="muted" style="margin:8px 0 14px">Send Mission Control a signed summary.</p>
-        <button class="btn block" data-go="handover">${ico('radio')}Prepare handover</button></section></aside></div>`;
+  const method = `<section class="block"><div class="sec"><h2>How Pulsar decides</h2></div>
+    <div class="m3">
+      <div><b>Your normal, not an average</b><p>For each reading, Pulsar learns your usual range from your own readings 10 to 45 days ago. Everyone's normal is different, and in space it shifts.</p></div>
+      <div><b>Drift, not one bad day</b><p>It smooths out day-to-day noise and flags a steady move away from your range. A small move is Watch. A big one is Act.</p></div>
+      <div><b>Medical lines, instantly</b><p>Some readings flag straight away whatever your normal is: a temperature of 38 °C or more, blood pressure of 140 systolic or 90 diastolic, or blood sugar under 70 mg/dL.</p></div>
+    </div></section>`;
+  const next = `<section class="block next2">
+    <div class="card"><div class="eyebrow">Due today</div>${due.length ? `<p>${due.map(t => esc(t.label)).join(', ')}.</p><button class="btn primary" data-go="checkin">${ico('clip')}Check in</button>` : `<p>All measurements done. ${R.streak}-day streak.</p>`}</div>
+    <div class="card"><div class="eyebrow">When the radio link returns</div><p>Send Mission Control a signed summary of all of this.</p><button class="btn" data-go="handover">${ico('radio')}Prepare handover</button></div></section>`;
+
+  const empty = !n ? (gaps.length ? `<section class="feature lvx"><div class="eyebrow">Next step</div><h2>Log the missing readings</h2><p class="muted">Without them Pulsar can't say these areas are fine.</p><button class="btn primary" style="margin-top:14px" data-go="checkin">${ico('clip')}Open check-in</button></section>` : '') : '';
+  return `<div class="today">${intro}${demoContext()}${verdict}${feature}${empty}${others}${body}${method}${next}</div>`;
 }
 
 function lastLogged(k) { const e = [...S.entries].reverse().find(x => (k === 'ared' ? x[k] != null : C.num(x[k]) != null)); return e ? e[k] : null; }
@@ -1320,7 +1492,7 @@ function viewCheckin() {
   if (!S.draft) S.draft = { day: (last.day || 0) + 1, sleep: null, exercise: null, ared: null, hr: null, weight: null, temp: null, bpsys: null, bpdia: null, glucose: null, intake: null,
     mood: null, stress: null, social: null, symptoms: null, pvt: null, lapses: null, note: '' };
   const d = S.draft, R = C.routine(AN, S.entries.length - 1, d.day), due = id => { const t = R.tasks.find(x => x.id === id); return t.state === 'due' || t.state === 'overdue' ? 'due today' : `next due day ${t.next}`; };
-  return head(`Mission day ${d.day}`, 'Check in', 'About two minutes. Leave anything you didn\'t measure blank.') +
+  return head(`Mission day ${d.day}`, 'Check in', 'Log today\'s readings. Pulsar compares each one with your normal, so the more you log, the more it can check. About two minutes. Leave blank anything you didn\'t measure.') +
     `<form id="checkinForm" class="layout"><div class="card">
       <div class="num-h"><span class="n">01</span><h2>Body</h2><button type="button" class="same" data-guide="g-ind">How to measure</button></div>
       <div class="fields">
@@ -1404,7 +1576,7 @@ setInterval(() => { const l = $('pvtLeft'); if (l) l.textContent = Math.max(0, M
 function viewTrends() {
   const M = C.METRICS[S.metric], p = AN.series[S.metric][S.cur];
   const segs = C.METRIC_KEYS.map(k => `<button data-metric="${k}" aria-pressed="${k === S.metric}">${ico(MICO[k])}${esc(C.METRICS[k].label)}</button>`).join('');
-  return head(`Mission day ${S.entries[S.cur].day}`, 'Trends', 'Each reading against your own normal.') +
+  return head(`Mission day ${S.entries[S.cur].day}`, 'Trends', 'Every reading across the mission. The shaded band is your normal range and the line is your smoothed reading. When the line leaves the band, Pulsar flags it.') +
     `<div class="seg" style="margin-bottom:16px">${segs}</div>
     <section class="panel"><div class="row" style="justify-content:space-between"><div><div class="eyebrow">Telemetry</div><h2 style="margin-top:6px">${esc(M.label)}</h2></div>
       ${p && p.mu != null ? `<span class="badge lv${p.level}">${LV[p.level]}</span>` : ''}</div>
@@ -1458,7 +1630,7 @@ async function viewHandover() {
   const p = S.packet;
   const v = S.verdict;
   const keys = subtle ? await trusted().catch(() => []) : [];
-  return head('When ground contact returns', 'Handover', 'A signed summary for Mission Control. Any change after signing is caught.') +
+  return head('When ground contact returns', 'Handover', 'Mission Control can\'t see your data live. When the radio link returns, send them this summary. It is signed on this device, so if anything is changed on the way, they will know.') +
     `<div class="grid2" style="align-items:start">
     <section class="card stack" style="gap:16px"><div><div class="eyebrow">Crew side</div><h2 style="font-size:22px;margin-top:6px">Build and sign</h2></div>
       <ol class="steps"><li><span class="n">1</span>Choose the reporting window</li></ol>
@@ -1603,7 +1775,7 @@ document.addEventListener('click', async ev => {
     case 'pvtPad': return pvtTap();
     case 'pvtAgain': PVT.state = 'idle'; return render();
     case 'pvtSave': if (!S.draft) viewCheckin(); Object.assign(S.draft, { pvt: PVT.result.median, lapses: PVT.result.lapses }); PVT.state = 'idle'; toast('Reaction result added to the check-in'); return go('checkin');
-    case 'moreActs': S.allActs = !S.allActs; return renderView();
+    case 'hideIntro': try { localStorage.setItem('pulsar.intro', 'hidden'); } catch (e) { /* optional */ } return renderView();
     case 'closeArea': S.area = null; return renderView();
     case 'runMulti': t.disabled = true; t.textContent = 'Running…'; setTimeout(() => { S.multi = C.evaluateSeeds(Array.from({ length: 50 }, (_, k) => S.seed * 100 + k + 1)); render(); }, 30); return;
     case 'newSeed': loadDemo(1 + Math.floor(Math.random() * 9999)); await save(); return render();

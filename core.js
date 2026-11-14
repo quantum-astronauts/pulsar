@@ -2,7 +2,7 @@
    flag rules, validation scoring and the Mission Control handover packet.
    Pure functions, no DOM, so it runs in the browser and in Node tests.
    AI disclosure: written with Anthropic Claude (Claude Code), directed and reviewed
-   by Team Quantam Astronauts. All mission data it generates is synthetic. */
+   by Team Quantum Astronauts. All mission data it generates is synthetic. */
 (function (root) {
   'use strict';
 

@@ -3,7 +3,7 @@
 # Pulsar: Crew Health Monitor
 
 NASA Space Apps 2026 · Challenge: *Create Health Monitoring Software for Astronauts on Space Missions*
-Team Quantam Astronauts (Sydney) — Shah & Kai, Macquarie University
+Team Quantum Astronauts (Sydney) — Shah & Kai, Macquarie University
 
 **Website:** https://quantum-astronauts.github.io/pulsar/ · **App:** https://quantum-astronauts.github.io/pulsar/app/ (works offline once loaded; all data is synthetic)
 
