@@ -25,12 +25,12 @@ Five health areas informed by NASA's spaceflight hazards: **bone & muscle, cardi
 |---|---|
 | Gather health indicators, any input | Check-in with steppers, scales and chips; reaction test by click, tap or Space |
 | Evaluate and act on health status | Personal-baseline drift detector + clinical lines → Nominal / Watch / Act, each with a checklist |
-| Human figure with clickable body parts | **Body map** on the Overview: brain, heart, lymph nodes, stomach and skeleton light up by status; tap one for what it does, what space does to it, your readings and prevention |
+| Human figure with clickable body parts | **Body map** on the Today screen: brain, heart, lymph nodes, stomach and skeleton light up by status; tap one for what it does, what space does to it, your readings and prevention |
 | Prompt measurements as part of the routine | **Mission routine** card: what is done, due or overdue today (temperature daily, BP every 2nd day, reaction test every 3rd, SLAMMD mass and fasting glucose weekly) |
 | Gamification | Check-in streak and a weekly score for measurements taken |
 | Dynamic charts | Trends tab: EWMA line against your ±2 SD personal band, events overlaid |
 | Colour coding | Green / amber / red for Nominal / Watch / Act, grey for *No data* and *Learning* |
-| Don't assume astronauts know everything | **Guide** tab: how to take each measurement in flight (e.g. SLAMMD uses F = ma because scales fail in free fall), why it matters, when to act, and red flags that mean calling the flight surgeon now |
+| Don't assume astronauts know everything | **Guide** (under More): how to take each measurement in flight (e.g. SLAMMD uses F = ma because scales fail in free fall), why it matters, when to act, and red flags that mean calling the flight surgeon now |
 | Different environments | ISS, Moon, Mars transit or Mars surface: gravity, signal delay and ground contact change the guidance and go into the handover |
 
 ### Award fit
@@ -42,7 +42,7 @@ Five health areas informed by NASA's spaceflight hazards: **bone & muscle, cardi
 
 **Honest status:** an area only shows *Nominal* when every indicator it depends on has a reading today and a personal baseline. Otherwise it shows *No data* or *Learning*. The check-in copies nothing over automatically; *Same as last* is an explicit confirmation. Ticked action steps stay attached to an alert for as long as it stays open.
 
-**Validation (synthetic data only):** a seeded 180-day synthetic mission with four injected events (infection MD48–54, sleep shift MD82–92, treadmill outage MD115–130, isolation MD150–172). Rerun after the final edits (14 Nov 2026): on the demo mission (seed 7) it catches **4/4** events, a mean of **1.0 day** after each starts, with 1 false-alarm episode (0.19 per 30 days). Across 50 further synthetic missions (seeds 701–750) it catches **100 %** of events (mean delay: infection 0.2 d, sleep shift 0.7 d, treadmill 0.2 d, isolation 3.3 d) at **0.36 false alarms per 30 days**. These figures describe synthetic data only, not real crew performance. Re-run it live on the Validation tab.
+**Validation (synthetic data only):** a seeded 180-day synthetic mission with four injected events (infection MD48–54, sleep shift MD82–92, treadmill outage MD115–130, isolation MD150–172). Rerun after the final edits (14 Nov 2026): on the demo mission (seed 7) it catches **4/4** events, a mean of **1.0 day** after each starts, with 1 false-alarm episode (0.19 per 30 days). Across 50 further synthetic missions (seeds 701–750) it catches **100 %** of events (mean delay: infection 0.2 d, sleep shift 0.7 d, treadmill 0.2 d, isolation 3.3 d) at **0.36 false alarms per 30 days**. These figures describe synthetic data only, not real crew performance. Re-run it live on the Validation page (under More).
 
 Decision support only. Not a medical device and does not diagnose.
 
@@ -56,7 +56,7 @@ Open `app/index.html` in Chrome, Edge or Firefox. It is self-contained (code and
 ./build.sh                      # app.html + core.js + img/ -> self-contained app/index.html
 python3 -m http.server 8000     # then open http://localhost:8000
 ```
-Deploy the folder to any static host over HTTPS (e.g. GitHub Pages) to make it installable and offline. `#status`, `#trends`, `#validation`, `#handover` deep-link to tabs.
+Deploy the folder to any static host over HTTPS (e.g. GitHub Pages) to make it installable and offline. `#status`, `#checkin`, `#trends`, `#handover`, `#more` deep-link to tabs.
 
 Files: `core.js` (generator, detector, rules, scoring, handover — pure JS, Node-testable), `app.html` (UI, storage, crypto), `app/sw.js`, `app/manifest.webmanifest`, `app/icon.svg`. The website is `index.html` (landing) and `contact/`, styled by `assets/`.
 
@@ -92,7 +92,7 @@ All mission data in Pulsar is **synthetic**: a seeded 180-day mission with four 
 - CrewRelay clip: Inter font (SIL OFL 1.1, bundled); lunar backdrop AI-generated (OpenAI).
 
 ## 3-minute demo script
-1. **Overview** opens on mission day 51: the infection. Tap the body map (heart, lymph nodes, stomach) and show the plain-language flags and the mission routine card.
+1. **Today** opens on mission day 51: the infection. Tap the body map (heart, lymph nodes, stomach) and show the plain-language flags and the mission routine card.
 2. Drag the **replay** slider through the mission. Jump to the treadmill outage, then isolation.
 3. **Trends**: the shaded band is *your* normal; the dots are where drift crossed the control limit.
 4. **Reaction test**: run the 1-minute version live.

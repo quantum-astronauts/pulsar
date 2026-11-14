@@ -74,6 +74,7 @@ button { font-family: inherit; }
 .tabs button .ico { width: 17px; height: 17px; }
 .tabs button:hover { color: var(--ink); }
 .tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+@media (max-width: 560px) { .tabs { justify-content: space-between; } .tabs button { flex: 1 1 0; flex-direction: column; gap: 4px; padding: 10px 2px 11px; font-size: 12px; } .tabs button .ico { width: 19px; height: 19px; } }
 @media (max-width: 640px) { .brand span, .meta .tag:not(.on) { display: none; } }
 
 /* demo strip */
@@ -97,6 +98,12 @@ main { padding-block: 0 48px; }
 
 .layout { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 24px; align-items: start; }
 @media (max-width: 980px) { .layout { grid-template-columns: minmax(0, 1fr); } .daynum { text-align: left; } }
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.tile { display: flex; gap: 16px; align-items: center; text-align: left; color: var(--ink); font: inherit; cursor: pointer; padding: 22px; transition: border-color .2s, transform .2s; }
+.tile:hover { border-color: var(--accent); transform: translateY(-2px); }
+.tile b { display: block; font: 700 19px var(--display); font-stretch: 112%; }
+.tile small { display: block; color: var(--muted); font-size: 14.5px; margin-top: 4px; }
+@media (max-width: 700px) { .tiles { grid-template-columns: 1fr; } }
 .stack { display: grid; gap: 24px; min-width: 0; }
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; }
 .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; align-items: start; }
@@ -159,6 +166,11 @@ main { padding-block: 0 48px; }
 .checks input { width: 18px; height: 18px; accent-color: var(--ok); flex: none; margin: 0; }
 .checks label:has(input:checked) { background: var(--ok-bg); border-color: transparent; }
 .checks label:has(input:checked) span { color: var(--muted); text-decoration: line-through; }
+.act summary { list-style: none; cursor: pointer; }
+.act summary::-webkit-details-marker { display: none; }
+.act .right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: none; }
+.act .right small { color: var(--muted); font-size: 13px; }
+.act:not([open]) { padding-block: 16px; }
 .act .foot { font-size: 13.5px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
 
 /* telemetry panel */
@@ -359,7 +371,7 @@ footer { border-top: 1px solid var(--line); padding-block: 18px 30px; color: var
       <svg viewBox="0 0 512 512" aria-hidden="true"><defs><radialGradient id="pl-bg" cx="50%" cy="48%" r="72%"><stop offset="0" stop-color="#16264a"/><stop offset=".6" stop-color="#080f1e"/><stop offset="1" stop-color="#03060d"/></radialGradient><linearGradient id="pl-beamA" x1="256" y1="256" x2="470" y2="42" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9fd4ff" stop-opacity=".95"/><stop offset=".55" stop-color="#7cc4ff" stop-opacity=".35"/><stop offset="1" stop-color="#7cc4ff" stop-opacity="0"/></linearGradient><linearGradient id="pl-beamB" x1="256" y1="256" x2="42" y2="470" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9fd4ff" stop-opacity=".95"/><stop offset=".55" stop-color="#7cc4ff" stop-opacity=".35"/><stop offset="1" stop-color="#7cc4ff" stop-opacity="0"/></linearGradient><radialGradient id="pl-core"><stop offset="0" stop-color="#ffffff"/><stop offset=".3" stop-color="#d9eeff" stop-opacity=".9"/><stop offset="1" stop-color="#7cc4ff" stop-opacity="0"/></radialGradient><clipPath id="pl-tile"><rect width="512" height="512" rx="112"/></clipPath></defs><rect width="512" height="512" rx="112" fill="url(#pl-bg)"/><g clip-path="url(#pl-tile)"><g fill="#e9eef8"><circle cx="96" cy="112" r="3"/><circle cx="150" cy="70" r="2"/><circle cx="420" cy="330" r="2.5"/><circle cx="360" cy="440" r="2"/><circle cx="70" cy="300" r="2"/><circle cx="300" cy="80" r="1.6"/></g><path d="M256 256 L430 26 L486 82 Z" fill="url(#pl-beamA)"/><path d="M256 256 L82 486 L26 430 Z" fill="url(#pl-beamB)"/></g><ellipse cx="256" cy="256" rx="182" ry="60" transform="rotate(-24 256 256)" fill="none" stroke="#7cc4ff" stroke-opacity=".6" stroke-width="9"/><circle cx="256" cy="256" r="70" fill="url(#pl-core)" opacity=".7"/><path d="M62 272 H172 L202 216 L240 336 L272 148 L304 300 L324 272 H450" fill="none" stroke="#f4f7fc" stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/><circle cx="410" cy="170" r="19" fill="#ff7a3d"/></svg>
       <b>Pulsar</b><span>Crew Health Monitor</span>
     </div>
-    <div class="meta"><span class="tag on" id="offlineTag"></span><span class="tag" id="lockTag"></span><span class="tag" id="crewTag">Crew member CM-1</span></div>
+    <div class="meta"><span class="tag on" id="offlineTag"></span></div>
   </div>
   <nav class="wrap tabs" id="tabs" role="tablist" aria-label="Views"></nav>
 </header>
@@ -969,7 +981,8 @@ const PROFILES = {
   transit: { short: 'Mars transit', label: 'Cruise to Mars', g: 'Microgravity', delay: '3 to 22 min one way', contact: 'Store and forward', note: 'No live conversation. The crew must judge and act first, then send the signed handover.' },
   mars: { short: 'Mars', label: 'Mars surface base', g: '0.38 g', delay: '3 to 22 min one way', contact: 'About 2 weeks of blackout at solar conjunction', note: 'Partial gravity slows bone loss but does not stop it. Pulsar works fully offline through blackouts.' },
 };
-const TABS = [['status', 'grid', 'Overview'], ['checkin', 'clip', 'Check-in'], ['pvt', 'zap', 'Reaction test'], ['trends', 'chart', 'Trends'], ['handover', 'radio', 'Handover'], ['validation', 'target', 'Validation'], ['guide', 'book', 'Guide'], ['security', 'lock', 'Privacy']];
+const TABS = [['status', 'grid', 'Today'], ['checkin', 'clip', 'Check in'], ['trends', 'chart', 'Trends'], ['handover', 'radio', 'Handover'], ['more', 'book', 'More']];
+const MORE = ['more', 'pvt', 'guide', 'validation', 'security'];
 $('tabs').innerHTML = TABS.map(([v, i, l]) => `<button data-view="${v}" role="tab">${ico(i)}${l}</button>`).join('');
 $('offlineTag').innerHTML = ico('wifiOff') + 'Works offline';
 $('lockIcon').innerHTML = ico('lock');
@@ -1173,7 +1186,7 @@ function bodyMap(row, cov) {
     ${g('cardio', `<path transform="translate(99 106) scale(1.05)" d="${P.heart}"/>`)}
     ${g('immune', '<circle cx="90" cy="74" r="4.5"/><circle cx="110" cy="74" r="4.5"/><circle cx="70" cy="106" r="4.5"/><circle cx="130" cy="106" r="4.5"/><circle cx="86" cy="206" r="4.5"/><circle cx="114" cy="206" r="4.5"/><circle cx="118" cy="150" r="5"/>')}
     ${g('nutrition', '<path d="M90 146c-8 2-12 10-9 19 3 10 16 14 26 9 7-3 10-11 6-17-2-4-6-6-9-11"/>')}
-  </svg><div class="cap">Select a body system for details</div>`;
+  </svg>`;
 }
 function indRow(k) {
   const i = S.cur, M = C.METRICS[k];
@@ -1198,7 +1211,7 @@ function sysDetail(a, row, cov) {
       <div class="pills">${x.hazards.map(h => `<span class="pill">${esc(HAZARDS[h].name)}</span>`).join('')}</div></div>
       <div><h4>Your indicators</h4>${x.ind.map(indRow).join('')}</div>
       <div><h4>Prevention</h4><ul class="bul">${x.prevent.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
-      <button class="btn sm" style="margin-top:14px" data-guide="g-ind">${ico('book')}How to measure</button></div></div></section>`;
+      <button class="btn sm" style="margin-top:14px" data-guide="g-ind">${ico('book')}How to measure</button></div></div><button class="btn sm" id="closeArea" style="margin-top:16px">${ico('x')}Close</button></section>`;
 }
 const RICO = { checkin: 'clip', temp: 'thermo', ared: 'dumbbell', bp: 'heart', pvt: 'zap', weight: 'scale', glucose: 'drop' };
 function routineCard() {
@@ -1214,13 +1227,13 @@ function recheckForm(f) {
   if (!f.pending || S.cur !== S.entries.length - 1) return '';
   return `<form class="recheck" id="recheckForm"><label for="gluRe">Log recheck now</label><input id="gluRe" type="number" inputmode="numeric" min="20" max="600" step="1" placeholder="mg/dL" required><button class="btn" type="submit">Save recheck</button></form>`;
 }
-function actionCard(f) {
+function actionCard(f, open) {
   const keys = (f.actions || []).map((_, k) => `${f.id}@${f.since}#${k}`);
   const done = keys.filter(k => S.done[k]).length;
   const items = (f.actions || []).map((a, k) => `<li><label><input type="checkbox" data-done="${esc(keys[k])}" ${S.done[keys[k]] ? 'checked' : ''}><span>${esc(a)}</span></label></li>`).join('');
-  return `<article class="card act lv${f.level}"><div class="fh"><span class="icon-sq">${ico(FICO[f.id] || 'alert')}</span>
-    <div><h3>${esc(f.title)}</h3><p class="metric">${esc(f.short || '')}</p></div><span class="badge">${LV[f.level]}</span></div>
-    <ul class="checks">${items}</ul>${recheckForm(f)}<div class="foot"><span>${done} of ${keys.length} steps complete</span><span>Open since day ${f.since}</span>${f.pending ? `<span class="badge lvx">${esc(f.pending)}</span>` : ''}${f.level === 2 ? '<span>Included as priority in the handover</span>' : ''}</div></article>`;
+  return `<details class="card act lv${f.level}" data-act="${esc(f.id)}" ${open ? 'open' : ''}><summary class="fh"><span class="icon-sq">${ico(FICO[f.id] || 'alert')}</span>
+    <div><h3>${esc(f.title)}</h3><p class="metric">${esc(f.short || '')}</p></div><span class="right"><span class="badge">${LV[f.level]}</span><small>${done}/${keys.length} done</small></span></summary>
+    <ul class="checks">${items}</ul>${recheckForm(f)}${f.pending ? `<div class="foot"><span class="badge lvx">${esc(f.pending)}</span></div>` : ''}</details>`;
 }
 function telemetry(title, sub) {
   const i = S.cur;
@@ -1243,36 +1256,45 @@ function viewStatus() {
   const overall = Math.max(0, ...C.AREA_KEYS.map(a => row.lv[a]));
   const n = row.flags.length, words = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'];
   const gaps = C.AREA_KEYS.filter(a => !row.lv[a] && cov[a].state === 'missing'), learn = C.AREA_KEYS.filter(a => !row.lv[a] && cov[a].state === 'learning');
-  const missingAll = [...new Set(C.AREA_KEYS.flatMap(a => cov[a].missing))], learningAll = [...new Set(C.AREA_KEYS.flatMap(a => cov[a].learning))];
+  const missingAll = [...new Set(C.AREA_KEYS.flatMap(a => cov[a].missing))];
   const list = a => a.join(', ').toLowerCase();
-  const title = n ? `${words[n] || n} item${n === 1 ? '' : 's'} need${n === 1 ? 's' : ''} attention today`
-    : gaps.length ? `${words[gaps.length]} health area${gaps.length === 1 ? '' : 's'} can't be assessed today`
-    : learn.length ? 'Learning your personal baseline' : 'All health areas nominal';
-  const lead = n ? 'Each one compares you with your own normal, not a population average.' + (missingAll.length ? ` Not logged: ${list(missingAll)}.` : '')
-    : gaps.length ? `Not logged: ${list(missingAll)}. Green only shows once every indicator has a reading.`
-    : learn.length ? `Still learning your normal for ${list(learningAll)}. Flags start after about 10 days of readings.` : 'Every indicator has a reading today and is within your personal baseline.';
-  if (!S.area || !SYS[S.area]) S.area = C.AREA_KEYS.slice().sort((x, y) => row.lv[y] - row.lv[x])[0];
+  const title = n ? `${words[n] || n} thing${n === 1 ? '' : 's'} to look at today`
+    : gaps.length ? 'Some readings are missing'
+    : learn.length ? 'Learning your normal' : 'All clear today';
+  const lead = n ? 'Compared with your own normal, not a population average.'
+    : gaps.length ? `Log ${list(missingAll)} so Pulsar can check every area.`
+    : learn.length ? 'Alerts start after about 10 days of check-ins.' : 'Every reading is within your normal range.';
+  // Area cards: one plain line each. Tapping one opens its detail panel below.
   const areas = C.AREA_KEYS.map(a => {
     const lv = row.lv[a], fl = row.flags.filter(f => f.areas.includes(a)), c = cov[a];
     const cls = lv ? lv : c.state === 'ok' ? 0 : 'x', badge = lv ? LV[lv] : c.state === 'missing' ? 'No data' : c.state === 'learning' ? 'Learning' : LV[0];
-    const why = fl.length ? esc(fl[0].title) + (fl.length > 1 ? ` <span class="muted">+${fl.length - 1} more</span>` : '') + (c.missing.length ? ` <span class="muted">· no ${esc(list(c.missing))}</span>` : '')
-      : c.state === 'missing' ? `Missing: ${esc(list(c.missing))}` : c.state === 'learning' ? `Baseline forming: ${esc(list(c.learning))}` : 'Within personal baseline';
+    const why = fl.length ? esc(fl[0].title) : c.state === 'missing' ? `No ${esc(list(c.missing))} logged` : c.state === 'learning' ? 'Learning your normal' : 'Normal for you';
     return `<article class="card area mini lv${cls}${S.area === a ? ' sel' : ''}" data-area="${a}"><div class="ah"><span class="icon-sq">${ico(AREA[a].icon)}</span><h3>${esc(AREA[a].name)}</h3><span class="badge">${badge}</span></div>
-      <div class="why">${why}</div>${spark(SPARK[a])}</article>`;
+      <div class="why">${why}</div></article>`;
   }).join('');
-  const actions = n ? row.flags.map(actionCard).join('')
-    : gaps.length ? `<div class="card lvx"><div class="banner"><span class="ring">${ico('clip')}</span><span>Log the missing readings<small>Not logged today: ${esc(list(missingAll))}. Without them Pulsar cannot say these areas are fine.</small></span></div><button class="btn block" style="margin-top:14px" data-go="checkin">${ico('clip')}Open check-in</button></div>`
-    : `<div class="card lv0"><div class="banner"><span class="ring">${ico('check')}</span><span>Nothing to action today<small>Keep logging daily so your baseline stays current.</small></span></div></div>`;
-  const ocls = overall || (!gaps.length && !learn.length) ? overall : 'x', olab = overall ? LV[overall] : gaps.length ? 'incomplete' : learn.length ? 'learning' : LV[0];
-  return head(`Mission day ${S.entries[i].day} · ${esc(PROFILES[S.profile].short)} · overview`, esc(title), esc(lead), `<div class="daynum"><span>MISSION DAY</span><b>${String(S.entries[i].day).padStart(3, '0')}</b><span class="badge lv${ocls}">Overall ${olab}</span></div>`) +
+  const detail = S.area && SYS[S.area] ? `<div style="margin-top:14px">${sysDetail(S.area, row, cov)}</div>` : '';
+  const CLIN = ['bpsevere', 'glulow', 'fever', 'bphigh', 'gluhigh', 'sleepcrit', 'hrhigh', 'bplow'];
+  const rank = f => (CLIN.includes(f.id) ? 0 : 1);
+  const flags = row.flags.slice().sort((x, y) => y.level - x.level || rank(x) - rank(y));
+  const openId = flags.some(f => f.id === S.openAct) ? S.openAct : flags[0] && flags[0].id;
+  const TOP = 3, shown = S.allActs ? flags : flags.slice(0, TOP);
+  const actions = n ? shown.map(f => actionCard(f, f.id === openId)).join('') + (n > TOP ? `<button class="btn block" id="moreActs">${S.allActs ? 'Show fewer' : `Show ${n - TOP} more`}</button>` : '')
+    : gaps.length ? `<div class="card lvx"><div class="banner"><span class="ring">${ico('clip')}</span><span>Log the missing readings<small>Without them Pulsar can't say these areas are fine.</small></span></div><button class="btn primary" style="margin-top:14px" data-go="checkin">${ico('clip')}Open check-in</button></div>`
+    : `<div class="card lv0"><div class="banner"><span class="ring">${ico('check')}</span><span>Nothing to do today<small>Keep checking in so your normal stays up to date.</small></span></div></div>`;
+  const ocls = overall || (!gaps.length && !learn.length) ? overall : 'x', olab = overall ? LV[overall] : gaps.length ? 'Incomplete' : learn.length ? 'Learning' : LV[0];
+  const R = C.routine(AN, i), due = R.tasks.filter(t => t.state === 'due' || t.state === 'overdue');
+  return head(`Mission day ${S.entries[i].day}`, esc(title), esc(lead), `<span class="badge lv${ocls}">${olab}</span>`) +
     `<div class="layout"><div class="stack">
-      <section><div class="sec"><h2>Body status</h2><span class="note">Five health areas informed by NASA's spaceflight hazards</span></div>
-        <div class="bodymap"><div class="figure">${bodyMap(row, cov)}</div><div class="areas">${areas}</div></div>
-        <div style="margin-top:14px">${sysDetail(S.area, row, cov)}</div></section>
-      <section><div class="sec"><h2>Actions</h2><span class="note">Tick steps as you complete them</span></div><div class="stack" style="gap:14px">${actions}</div></section>
-    </div><aside class="stack">${routineCard()}${telemetry('Now vs personal baseline', 'Smoothed reading against your own normal.')}
-      <section class="card"><div class="eyebrow">Next ground contact</div><h3 style="font-size:18px;margin:6px 0 4px">Handover packet</h3><p class="muted" style="margin-bottom:14px">Signed summary of open items, trends and actions taken.</p>
-      <button class="btn primary block" data-go="handover">${ico('radio')}Prepare handover</button></section></aside></div>`;
+      <section><div class="sec"><h2>${n ? 'What to do' : 'Today'}</h2>${n ? '<span class="note">Tick steps as you go</span>' : ''}</div><div class="stack" style="gap:14px">${actions}</div></section>
+      <section><div class="sec"><h2>Your body</h2><span class="note">Tap an area for details</span></div>
+        <div class="bodymap"><div class="figure">${bodyMap(row, cov)}</div><div class="areas">${areas}</div></div>${detail}</section>
+    </div><aside class="stack">
+      <section class="card"><div class="eyebrow">Due today</div>
+        ${due.length ? `<ul class="rows rt" style="margin-top:10px">${due.map(t => `<li><span class="icon-sq">${ico(RICO[t.id])}</span><span class="txt">${esc(t.label)}</span>${t.state === 'overdue' ? `<span class="badge lv2">${t.late} d late</span>` : ''}</li>`).join('')}</ul>
+          <button class="btn primary block" style="margin-top:14px" data-go="checkin">${ico('clip')}Check in</button>`
+        : `<p class="muted" style="margin:8px 0 0">All measurements done. ${R.streak}-day streak.</p>`}</section>
+      <section class="card"><div class="eyebrow">Next ground contact</div><p class="muted" style="margin:8px 0 14px">Send Mission Control a signed summary.</p>
+        <button class="btn block" data-go="handover">${ico('radio')}Prepare handover</button></section></aside></div>`;
 }
 
 function lastLogged(k) { const e = [...S.entries].reverse().find(x => (k === 'ared' ? x[k] != null : C.num(x[k]) != null)); return e ? e[k] : null; }
@@ -1298,7 +1320,7 @@ function viewCheckin() {
   if (!S.draft) S.draft = { day: (last.day || 0) + 1, sleep: null, exercise: null, ared: null, hr: null, weight: null, temp: null, bpsys: null, bpdia: null, glucose: null, intake: null,
     mood: null, stress: null, social: null, symptoms: null, pvt: null, lapses: null, note: '' };
   const d = S.draft, R = C.routine(AN, S.entries.length - 1, d.day), due = id => { const t = R.tasks.find(x => x.id === id); return t.state === 'due' || t.state === 'overdue' ? 'due today' : `next due day ${t.next}`; };
-  return head(`Daily check-in · mission day ${d.day}`, 'Log today in about two minutes', 'Nothing is copied over on its own. Tap "Same as last" to confirm a reading that has not changed. Anything left blank shows as missing data.') +
+  return head(`Mission day ${d.day}`, 'Check in', 'About two minutes. Leave anything you didn\'t measure blank.') +
     `<form id="checkinForm" class="layout"><div class="card">
       <div class="num-h"><span class="n">01</span><h2>Body</h2><button type="button" class="same" data-guide="g-ind">How to measure</button></div>
       <div class="fields">
@@ -1382,19 +1404,14 @@ setInterval(() => { const l = $('pvtLeft'); if (l) l.textContent = Math.max(0, M
 function viewTrends() {
   const M = C.METRICS[S.metric], p = AN.series[S.metric][S.cur];
   const segs = C.METRIC_KEYS.map(k => `<button data-metric="${k}" aria-pressed="${k === S.metric}">${ico(MICO[k])}${esc(C.METRICS[k].label)}</button>`).join('');
-  return head(`Personal baseline drift · day ${S.entries[S.cur].day}`, 'Trends across the mission', 'Each reading is judged against your own recent normal.') +
+  return head(`Mission day ${S.entries[S.cur].day}`, 'Trends', 'Each reading against your own normal.') +
     `<div class="seg" style="margin-bottom:16px">${segs}</div>
     <section class="panel"><div class="row" style="justify-content:space-between"><div><div class="eyebrow">Telemetry</div><h2 style="margin-top:6px">${esc(M.label)}</h2></div>
       ${p && p.mu != null ? `<span class="badge lv${p.level}">${LV[p.level]}</span>` : ''}</div>
       <div class="scrollx" style="margin-top:12px">${metricChart(S.metric)}</div>
       <div class="legend"><span><i style="background:var(--trace)"></i>Smoothed reading (EWMA)</span><span><i style="background:rgba(124,196,255,.3);height:10px"></i>Personal baseline ±2 SD</span><span><i style="background:var(--watch);height:8px;width:8px;border-radius:50%"></i>Watch</span><span><i style="background:var(--act);height:8px;width:8px;border-radius:50%"></i>Act</span>
         ${S.demo ? `<label style="cursor:pointer"><input type="checkbox" id="showEv" ${S.showEvents ? 'checked' : ''}> Show injected events</label>` : ''}</div></section>
-    <div class="layout" style="margin-top:24px">${telemetry('All indicators', 'Now vs baseline at the selected day.')}
-    <section class="card"><div class="sec"><h2>Method</h2></div><ul class="rows">
-      <li><span class="icon-sq">${ico('database')}</span><span class="txt"><b>Personal baseline</b><small>Rebuilt daily from days 10–45 before today</small></span></li>
-      <li><span class="icon-sq">${ico('activity')}</span><span class="txt"><b>EWMA control chart</b><small>Smoothing λ 0.35, limits at 3σ (Watch) and 5σ (Act)</small></span></li>
-      <li><span class="icon-sq">${ico('target')}</span><span class="txt"><b>Minimum meaningful change</b><small>e.g. 0.6 h sleep, 4 bpm heart rate, 35 ms reaction</small></span></li>
-      <li><span class="icon-sq">${ico('shield')}</span><span class="txt"><b>Flagged readings excluded</b><small>Readings flagged by the drift detector stay out of that indicator's baseline</small></span></li></ul></section></div>`;
+`;
 }
 
 function viewValidation() {
@@ -1419,7 +1436,12 @@ function viewValidation() {
         <div class="metric-c"><div class="k">False alarms / 30 days</div><div class="big">${m.faPer30.toFixed(2)}</div></div></div>
         <ul class="rows">${m.perEvent.map(p => `<li><span class="txt"><b>${esc(p.event.short)}</b><small>mean ${p.meanLatency == null ? '–' : p.meanLatency.toFixed(1)} days to flag</small></span><span class="badge lv0">${p.caught}/${m.missions}</span></li>`).join('')}</ul>`
         : '<p class="muted" style="margin-bottom:14px">Rerun the detector on 50 more randomly seeded missions to check this is not a lucky draw.</p>'}
-      <div class="stack" style="gap:10px;margin-top:14px"><button class="btn primary block" id="runMulti">${ico('play')}Test 50 missions</button><button class="btn block" id="newSeed">${ico('shuffle')}Generate a new mission</button></div></aside></div>`;
+      <div class="stack" style="gap:10px;margin-top:14px"><button class="btn primary block" id="runMulti">${ico('play')}Test 50 missions</button><button class="btn block" id="newSeed">${ico('shuffle')}Generate a new mission</button></div></aside></div>
+    <div style="margin-top:24px"><section class="card"><div class="sec"><h2>Method</h2></div><ul class="rows">
+      <li><span class="icon-sq">${ico('database')}</span><span class="txt"><b>Personal baseline</b><small>Rebuilt daily from days 10–45 before today</small></span></li>
+      <li><span class="icon-sq">${ico('activity')}</span><span class="txt"><b>EWMA control chart</b><small>Smoothing λ 0.35, limits at 3σ (Watch) and 5σ (Act)</small></span></li>
+      <li><span class="icon-sq">${ico('target')}</span><span class="txt"><b>Minimum meaningful change</b><small>e.g. 0.6 h sleep, 4 bpm heart rate, 35 ms reaction</small></span></li>
+      <li><span class="icon-sq">${ico('shield')}</span><span class="txt"><b>Flagged readings excluded</b><small>Readings flagged by the drift detector stay out of that indicator's baseline</small></span></li></ul></section></div>`;
 }
 
 const STATUS_LV = { Nominal: 0, Watch: 1, Act: 2 };
@@ -1430,16 +1452,15 @@ function packetView(p) {
   return `<ul class="rows">${areas}</ul>${items ? `<div class="eyebrow" style="margin-top:6px">Open items</div><ul class="rows">${items}</ul>` : ''}
     <div class="metrics"><div class="metric-c"><div class="k">Exercise</div><div class="big" style="font-size:24px">${p.adherence.exerciseAvgMin}<small>min/day</small></div></div>
       <div class="metric-c"><div class="k">Resistance days</div><div class="big" style="font-size:24px">${esc(p.adherence.resistanceDays)}</div></div>
-      <div class="metric-c"><div class="k">Packet size</div><div class="big" style="font-size:24px">${(JSON.stringify(S.packet).length / 1024).toFixed(1)}<small>KB</small></div></div></div>`;
+</div>`;
 }
 async function viewHandover() {
   const p = S.packet;
   const v = S.verdict;
   const keys = subtle ? await trusted().catch(() => []) : [];
-  return head('Handover · when ground contact returns', 'Signed summary for Mission Control', 'Open items first, then trends and adherence. Any change after signing is detected.') +
+  return head('When ground contact returns', 'Handover', 'A signed summary for Mission Control. Any change after signing is caught.') +
     `<div class="grid2" style="align-items:start">
     <section class="card stack" style="gap:16px"><div><div class="eyebrow">Crew side</div><h2 style="font-size:22px;margin-top:6px">Build and sign</h2></div>
-      <div class="banner lvx"><span class="ring">${ico('globe')}</span><span>${esc(PROFILES[S.profile].label)} · signal delay ${esc(PROFILES[S.profile].delay.toLowerCase())}<small>${esc(PROFILES[S.profile].note)} Change it in the Guide.</small></span></div>
       <ol class="steps"><li><span class="n">1</span>Choose the reporting window</li></ol>
       <div class="seg">${[7, 14, 30].map(n => `<button data-win="${n}" aria-pressed="${S.windowDays === n}">Last ${n} days</button>`).join('')}</div>
       <ol class="steps"><li><span class="n">2</span>Sign with this device's key</li></ol>
@@ -1456,7 +1477,7 @@ async function viewHandover() {
         <button class="btn sm" id="verifyBtn" style="margin-top:10px" ${subtle ? '' : 'disabled'}>Verify pasted packet</button></details>
       <details ${v && v.unknown ? 'open' : ''}><summary>Trusted crew keys (${keys.length})</summary>
         <ul class="rows keylist" style="margin-top:10px">${keys.map(t => `<li><span class="icon-sq">${ico('key')}</span><span class="txt"><b>${esc(t.crew)}</b><small class="fp">${esc(t.fp)}</small></span></li>`).join('')}</ul>
-        <p class="sub" style="margin-top:10px">A receiving station only trusts keys registered here. Paste the crew key file from the crew's Privacy tab, then read the fingerprint back to them by voice.</p>
+        <p class="sub" style="margin-top:10px">A receiving station only trusts keys registered here. Paste the crew key file from the crew's Privacy page (under More), then read the fingerprint back to them by voice.</p>
         <textarea id="keyIn" spellcheck="false" style="margin-top:10px" placeholder="Paste a Pulsar crew key file"></textarea>
         <button class="btn sm" id="importKey" style="margin-top:10px" ${subtle ? '' : 'disabled'}>${ico('key')}Register crew key</button></details>
     </section></div>`;
@@ -1506,15 +1527,23 @@ function viewGuide() {
     <p class="muted" style="font-size:13.5px">Sources: NASA Human Research Program (five hazards of human spaceflight; ISS countermeasures such as ARED, T2 and SLAMMD; the Reaction Self Test), Canadian Space Agency (bone loss in space), Barger et al., Lancet Neurology 2014 (ISS sleep), and Stahn et al., Scientific Reports 2017, which measured resting core body temperature in ISS crew before, during and after long-duration flight. Pulsar is decision support, not a diagnosis.</p></div>`;
 }
 
+function viewMore() {
+  const tile = (v, icon, t, sub) => `<button class="card tile" data-go="${v}"><span class="icon-sq">${ico(icon)}</span><span><b>${t}</b><small>${sub}</small></span></button>`;
+  return head('More', 'Tools and background', '') +
+    `<div class="tiles">
+      ${tile('pvt', 'zap', 'Reaction test', 'A 60-second alertness check, every third day')}
+      ${tile('guide', 'book', 'Guide', 'How to measure, and when to act')}
+      ${tile('validation', 'target', 'Validation', 'How well the detector works, on test missions')}
+      ${tile('security', 'lock', 'Privacy', 'Encryption, signing key and demo data')}
+    </div>`;
+}
+
 // ---------- render + events ----------
-const VIEWS = { status: viewStatus, checkin: viewCheckin, pvt: viewPvt, trends: viewTrends, validation: viewValidation, handover: viewHandover, guide: viewGuide, security: viewSecurity };
+const VIEWS = { status: viewStatus, checkin: viewCheckin, pvt: viewPvt, trends: viewTrends, validation: viewValidation, handover: viewHandover, guide: viewGuide, security: viewSecurity, more: viewMore };
 async function render() {
-  document.querySelectorAll('#tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.view === S.view)));
+  document.querySelectorAll('#tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.view === S.view || (b.dataset.view === 'more' && MORE.includes(S.view)))));
   document.body.classList.toggle('city', S.view === 'handover' || S.view === 'validation');
-  $('lockTag').innerHTML = ico(S.aesKey ? 'lock' : 'unlock') + (S.aesKey ? 'Encrypted' : 'Not encrypted');
-  $('lockTag').classList.toggle('on', !!S.aesKey);
-  $('crewTag').textContent = `CM-1 · ${PROFILES[S.profile].short}`;
-  const empty = !S.entries.length && !['checkin', 'security', 'pvt', 'guide'].includes(S.view);
+  const empty = !S.entries.length && !['checkin', 'security', 'pvt', 'guide', 'more'].includes(S.view);
   const html = empty ? head('New personal log', 'Log your first check-in', 'Your personal baseline forms after about 20 daily check-ins.') +
       `<div class="row"><button class="btn primary lg" data-go="checkin">${ico('clip')}Start check-in</button><button class="btn lg" id="loadDemo">Load the demo mission</button></div>` : await VIEWS[S.view]();
   $('strip').innerHTML = !empty && S.demo && (S.view === 'status' || S.view === 'trends') ? demoStrip() : '';
@@ -1539,7 +1568,7 @@ function readDraft() {
 document.addEventListener('click', async ev => {
   const t = ev.target.closest('button, [data-go], [data-area], #pvtPad'); if (!t) return;
   const ds = t.dataset;
-  if (ds.area) { S.area = ds.area; if (S.view !== 'status') return go('status'); return renderView(); }
+  if (ds.area) { S.area = S.view === 'status' && S.area === ds.area ? null : ds.area; if (S.view !== 'status') return go('status'); return renderView(); }
   if (ds.guide) { readDraft(); go('guide'); const el = $(ds.guide); if (el) el.scrollIntoView(); return; }
   if (ds.profile) { S.profile = ds.profile; await save(); return render(); }
   if (ds.view) return go(ds.view);
@@ -1574,6 +1603,8 @@ document.addEventListener('click', async ev => {
     case 'pvtPad': return pvtTap();
     case 'pvtAgain': PVT.state = 'idle'; return render();
     case 'pvtSave': if (!S.draft) viewCheckin(); Object.assign(S.draft, { pvt: PVT.result.median, lapses: PVT.result.lapses }); PVT.state = 'idle'; toast('Reaction result added to the check-in'); return go('checkin');
+    case 'moreActs': S.allActs = !S.allActs; return renderView();
+    case 'closeArea': S.area = null; return renderView();
     case 'runMulti': t.disabled = true; t.textContent = 'Running…'; setTimeout(() => { S.multi = C.evaluateSeeds(Array.from({ length: 50 }, (_, k) => S.seed * 100 + k + 1)); render(); }, 30); return;
     case 'newSeed': loadDemo(1 + Math.floor(Math.random() * 9999)); await save(); return render();
     case 'loadDemo': { const s = $('seedIn') ? Math.max(1, parseInt($('seedIn').value, 10) || 7) : 7; loadDemo(s); await save(); toast(`Demo mission loaded (seed ${s})`); return go('status'); }
@@ -1614,6 +1645,8 @@ document.addEventListener('input', ev => {
   if (ev.target.id === 'dayRange') { S.cur = +ev.target.value; renderView(); return; }
   if (ev.target.closest('#checkinForm')) readDraft();
 });
+// Remember which alert card is open, so ticking a step or re-rendering keeps it open.
+document.addEventListener('toggle', ev => { const d = ev.target; if (d.dataset && d.dataset.act && d.open) S.openAct = d.dataset.act; }, true);
 document.addEventListener('change', ev => {
   const t = ev.target;
   if (t.dataset.done) { if (t.checked) S.done[t.dataset.done] = true; else delete S.done[t.dataset.done]; save(); renderView(); }
