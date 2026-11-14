@@ -1,5 +1,5 @@
 // App-shell cache: everything Pulsar needs runs from here once installed.
-const CACHE = 'pulsar-v15';
+const CACHE = 'pulsar-v16';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon.svg', 'icon-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => {

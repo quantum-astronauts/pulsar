@@ -571,7 +571,7 @@ footer { border-top: 1px solid var(--line); padding-block: 18px 30px; color: var
 .dm { display: flex; align-items: center; gap: 12px; }
 .dm .day { font: 700 17px var(--display); font-stretch: 108%; }
 .dm small { color: var(--muted); font-size: 12.5px; }
-.jumps .jl { align-self: center; font: 600 11px var(--display); font-stretch: 125%; letter-spacing: .18em; text-transform: uppercase; color: #56627a; margin-right: 4px; }
+.jumps .jl { white-space: nowrap; flex: none; align-self: center; font: 600 11px var(--display); font-stretch: 125%; letter-spacing: .18em; text-transform: uppercase; color: #56627a; margin-right: 4px; }
 
 /* ---------- check in ---------- */
 .ci { display: grid; gap: 0; padding-bottom: 110px; }
@@ -620,6 +620,26 @@ footer { border-top: 1px solid var(--line); padding-block: 18px 30px; color: var
 .tpick button[aria-pressed="true"] { background: var(--ink); color: var(--void); }
 .tdiv { flex: none; width: 1px; height: 18px; background: var(--line-2); margin: 0 6px; }
 @media (min-width: 761px) { .tpick { flex-wrap: wrap; row-gap: 4px; overflow: visible; -webkit-mask-image: none; mask-image: none; } }
+
+/* ---------- trends scrubbing + sticky demo strip ---------- */
+#strip { position: sticky; top: var(--toph, 98px); z-index: 4; }
+.strip { background: rgba(3, 6, 13, .86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.scrub { margin-top: 22px; cursor: ew-resize; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.scrub .chart { width: 100%; height: auto; display: block; }
+.chart .nowtag { fill: var(--ink); } .chart .nowtxt { font: 700 12px var(--body); fill: var(--void); }
+.chart .grab { fill: var(--ink); stroke: var(--void); stroke-width: 3; }
+.chart .now { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: none; opacity: .8; }
+.scrubhint { display: flex; align-items: center; gap: 8px; margin: 10px 0 0; color: var(--muted); font-size: 13.5px; }
+.scrubhint .ico { width: 16px; height: 16px; color: var(--accent); }
+.stat b { white-space: nowrap; }
+@media (max-width: 600px) {
+  .strip .jumps { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .strip .jumps::-webkit-scrollbar { display: none; }
+  .strip .jumps button { flex: none; }
+  .dm small { display: none; }
+  .stat { gap: 20px; flex-wrap: wrap; }
+  .stat b { font-size: 44px; } .stat .vs b { font-size: 24px; }
+}
 </style>
 
 <canvas id="stars" aria-hidden="true"></canvas><div class="aurora" aria-hidden="true"><i></i><i></i></div>
@@ -933,7 +953,8 @@ function metricChart(key) {
   real.forEach(p => { s += `<circle class="raw" cx="${X(p.d)}" cy="${Y(p.v)}" r="2.4"/>`; });
   if (real.length > 1) s += `<path class="ew" pathLength="1" d="M${real.map(p => `${X(p.d)},${Y(p.ew)}`).join('L')}"/>`;
   real.filter(p => p.level).forEach(p => { s += `<circle class="f${p.level}" cx="${X(p.d)}" cy="${Y(p.ew)}" r="4.6"/>`; });
-  if (ents[cur]) s += `<line class="now" x1="${X(ents[cur].day)}" x2="${X(ents[cur].day)}" y1="${Pd.t}" y2="${H - Pd.b}"/>`;
+  if (ents[cur]) { const nx = X(ents[cur].day), right = nx > W - 90;
+    s += `<line class="now" x1="${nx}" x2="${nx}" y1="${Pd.t}" y2="${H - Pd.b}"/><rect class="nowtag" x="${right ? nx - 70 : nx + 6}" y="${Pd.t + 2}" width="64" height="22" rx="11"/><text class="nowtxt" x="${right ? nx - 38 : nx + 38}" y="${Pd.t + 17}" text-anchor="middle">Day ${ents[cur].day}</text><circle class="grab" cx="${nx}" cy="${H - Pd.b}" r="8"/>`; }
   return s + '</svg>';
 }
 function spark(key) {
@@ -1370,7 +1391,7 @@ function viewTrends() {
     <section class="tsel lv${p && p.mu != null ? p.level : 'x'}">
       <div class="tsh"><div><h2>${esc(M.label)}</h2><p class="why1">${esc(WHY[k] || '')}</p></div><span class="badge">${word}</span></div>
       <div class="stat">${j >= 0 ? `<div><b>${esc(C.fmt(k, ser[j].v))}</b><small>${S.entries[j].day === S.entries[S.cur].day ? 'today' : 'day ' + S.entries[j].day}</small></div>` : ''}${mu != null ? `<div class="vs"><b>${esc(C.fmt(k, mu))}</b><small>your normal</small></div>` : ''}<div class="vs"><b>${out}</b><small>flagged days, last 30</small></div></div>
-      <div class="scrollx" style="margin-top:22px">${metricChart(k)}</div>
+      <div class="scrub" title="Drag to move through the mission">${metricChart(k)}</div><p class="scrubhint">${ico('activity')}Drag across the chart to move through the mission</p>
       <div class="lvkey"><span><i style="background:rgba(124,196,255,.35)"></i>Your normal</span><span><i style="background:var(--trace)"></i>Your readings</span><span class="lv1"><i></i>Watch</span><span class="lv2"><i></i>Act</span>
         ${S.demo ? `<label style="cursor:pointer;display:inline-flex;gap:8px;align-items:center"><input type="checkbox" id="showEv" ${S.showEvents ? 'checked' : ''}> Show hidden demo events</label>` : ''}</div>
     </section>`;
@@ -1615,6 +1636,23 @@ document.addEventListener('input', ev => {
   if (ev.target.id === 'dayRange') { S.cur = +ev.target.value; renderView(); return; }
   if (ev.target.closest('#checkinForm')) readDraft();
 });
+// Trends: drag across the chart to change the mission day (same scale as metricChart).
+let scrubbing = false;
+function scrubAt(ev) {
+  const svg = document.querySelector('.scrub svg'); if (!svg || !S.entries.length) return;
+  const r = svg.getBoundingClientRect(), fx = (ev.clientX - r.left) / r.width;
+  const x0 = S.entries[0].day, x1 = Math.max(S.entries[S.entries.length - 1].day, x0 + 1);
+  const day = x0 + (fx * 940 - 50) / (940 - 50 - 16) * (x1 - x0);
+  let i = 0; while (i < S.entries.length - 1 && S.entries[i + 1].day <= day) i++;
+  if (i !== S.cur) { S.cur = i; if ($('dayRange')) $('dayRange').value = i; renderView(); }
+}
+document.addEventListener('pointerdown', ev => { if (ev.target.closest && ev.target.closest('.scrub')) { scrubbing = true; scrubAt(ev); ev.preventDefault(); } });
+document.addEventListener('pointermove', ev => { if (scrubbing) scrubAt(ev); });
+document.addEventListener('pointerup', () => { scrubbing = false; });
+document.addEventListener('pointercancel', () => { scrubbing = false; });
+// The demo strip sticks just under the header, so the day slider stays in reach while scrolling.
+const setTopH = () => { const t = document.querySelector('header.top'); if (t) document.documentElement.style.setProperty('--toph', t.offsetHeight + 'px'); };
+addEventListener('resize', setTopH); setTimeout(setTopH, 0);
 // Remember which alert card is open, so ticking a step or re-rendering keeps it open.
 document.addEventListener('toggle', ev => { const d = ev.target; if (d.dataset && d.dataset.act && d.open) S.openAct = d.dataset.act; }, true);
 document.addEventListener('change', ev => {
