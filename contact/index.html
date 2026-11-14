@@ -17,6 +17,7 @@
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
+<canvas id="sky" aria-hidden="true"></canvas>
 
 <header class="top">
   <div class="wrap">
@@ -35,17 +36,25 @@
 
 <main>
   <section class="page-hero">
+    <svg class="rings" viewBox="0 0 900 900" aria-hidden="true">
+      <g transform="rotate(-22 450 450)">
+        <ellipse class="r1" cx="450" cy="450" rx="420" ry="150"/>
+        <ellipse class="r2" cx="450" cy="450" rx="330" ry="118"/>
+        <ellipse class="r3" cx="450" cy="450" rx="440" ry="250"/>
+        <circle r="7"><animateMotion dur="16s" repeatCount="indefinite" path="M870 450a420 150 0 1 1 -840 0a420 150 0 1 1 840 0"/></circle>
+      </g>
+    </svg>
     <div class="wrap">
       <div>
         <p class="event load"><i aria-hidden="true"></i>NASA Space Apps Challenge 2026 <span>· Sydney</span></p>
         <h1 class="load" style="--d:.08s">The crew behind Pulsar.</h1>
-        <p class="lede load" style="--d:.18s">We're Team Quantum Astronauts, two Macquarie University students who built Pulsar for the challenge to create health monitoring software for astronauts on space missions.</p>
+        <p class="lede load" style="--d:.18s">Team Quantum Astronauts: two Macquarie University students, one health monitor for deep space.</p>
         <div class="ctas load" style="--d:.26s">
           <a class="btn solid" href="#touch">Get in touch <span class="arr">→</span></a>
           <a class="btn ghost" href="../app/">Try Pulsar</a>
         </div>
       </div>
-      <figure class="photo load" style="--d:.2s">
+      <figure class="photo load" style="--d:.2s" data-tilt>
         <img src="../media/team.jpg" alt="Kai and Shah of Team Quantum Astronauts, smiling under a starry night sky" width="1400" height="1050">
         <figcaption><b>Team Quantum Astronauts</b><span>Kai &amp; Shah · Sydney</span></figcaption>
       </figure>
@@ -58,7 +67,7 @@
         <div>
           <p class="label">Contact</p>
           <h2 class="h2">Get in touch.</h2>
-          <p class="lede">Judges, mentors, flight-medicine people or anyone curious about crew health: we'd love to hear from you.</p>
+          <p class="lede">Judges, mentors or anyone curious. We'd love to hear from you.</p>
         </div>
         <div>
           <div class="mail">

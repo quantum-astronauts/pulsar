@@ -18,6 +18,7 @@
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
+<canvas id="sky" aria-hidden="true"></canvas>
 
 <header class="top">
   <div class="wrap">
@@ -36,13 +37,13 @@
 
 <main>
   <section class="hero">
-    <div class="stars" aria-hidden="true"></div>
+    <div class="horizon" aria-hidden="true"><img src="img/earth-limb.jpg" alt=""></div>
     <div class="wrap">
       <div class="hero-copy">
         <p class="event load"><i aria-hidden="true"></i>NASA Space Apps Challenge 2026 <span>· Sydney</span></p>
         <h1 class="word load" style="--d:.08s">PULSAR<svg class="trace" viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40H380L410 14L440 56L470 4L500 48L516 40H1000"/></svg></h1>
         <p class="tagline load" style="--d:.18s">Health checks that <em>don't wait for Earth.</em></p>
-        <p class="lede load" style="--d:.26s">Pulsar learns each astronaut's normal, spots drift days early and tells the crew exactly what to do. No signal needed.</p>
+        <p class="lede load" style="--d:.26s">It learns each astronaut's normal, spots drift early and says what to do next. No signal needed.</p>
         <div class="ctas load" style="--d:.34s">
           <a class="btn solid" href="app/">Open the app <span class="arr">→</span></a>
           <a class="btn ghost" href="#demo">Watch the 30-second demo</a>
@@ -61,8 +62,8 @@
           <ellipse id="o-orbit" cx="256" cy="256" rx="200" ry="66" transform="rotate(-24 256 256)" fill="none" stroke="#7cc4ff" stroke-opacity=".5" stroke-width="3"/>
           <ellipse cx="256" cy="256" rx="236" ry="80" transform="rotate(-24 256 256)" fill="none" stroke="#7cc4ff" stroke-opacity=".14" stroke-width="1.5" stroke-dasharray="4 10"/>
           <circle class="halo" cx="256" cy="256" r="84" fill="url(#o-c)"/>
-          <path d="M40 272H170L200 216L238 336L270 148L302 300L322 272H472" fill="none" stroke="#f4f7fc" stroke-opacity=".18" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
-          <path class="beat" d="M40 272H170L200 216L238 336L270 148L302 300L322 272H472" fill="none" stroke="#f4f7fc" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
+          <path class="trace-line" d="M40 272H170L200 216L238 336L270 148L302 300L322 272H472" fill="none" stroke="#f4f7fc" stroke-opacity=".18" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
+          <path class="beat trace-line" d="M40 272H170L200 216L238 336L270 148L302 300L322 272H472" fill="none" stroke="#f4f7fc" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
           <g transform="rotate(-24 256 256)"><circle r="10" fill="#ff7a3d"><animateMotion dur="9s" repeatCount="indefinite" path="M456 256a200 66 0 1 1 -400 0a200 66 0 1 1 400 0"/></circle></g>
         </svg>
         <div class="alert">
@@ -81,21 +82,21 @@
   <section class="sec" id="how">
     <div class="wrap">
       <p class="label rise">How it works</p>
-      <h2 class="h2 rise">Two minutes a day.<br>Three things happen.</h2>
-      <div class="steps">
-        <article class="step rise"><div class="n">01</div><h3>Check in</h3><p>Sleep, heart rate, blood pressure, temperature, food and mood, plus a quick reaction test.</p></article>
-        <article class="step rise" style="--d:.1s"><div class="n">02</div><h3>Spot the drift</h3><p>Every reading is compared with your own baseline, not a textbook average, so small changes show up early.</p></article>
-        <article class="step rise" style="--d:.2s"><div class="n">03</div><h3>Act, then hand over</h3><p>Each alert comes with a checklist. When contact returns, Mission Control gets a signed summary it can trust.</p></article>
+      <h2 class="h2 rise">Two minutes a day.</h2>
+      <div class="phones">
+        <figure class="phone rise"><div class="screen"><img src="media/screen-checkin.jpg" alt="Pulsar daily check-in screen with sleep, heart rate and temperature steppers" loading="lazy" width="600" height="1298"></div><figcaption><span class="n">01</span><b>Check in</b></figcaption></figure>
+        <figure class="phone rise" style="--d:.12s"><div class="screen"><img src="media/screen-alert.jpg" alt="A Pulsar alert, Sleeping less than usual, with a checklist of steps" loading="lazy" width="600" height="1298"></div><figcaption><span class="n">02</span><b>Spot the drift</b></figcaption></figure>
+        <figure class="phone rise" style="--d:.24s"><div class="screen"><img src="media/screen-handover.jpg" alt="Mission Control verification showing Verified: authentic and unchanged" loading="lazy" width="600" height="1298"></div><figcaption><span class="n">03</span><b>Hand over, signed</b></figcaption></figure>
       </div>
     </div>
   </section>
 
-  <section class="sec">
+  <section class="band">
+    <img src="img/city-lights.jpg" alt="" data-px=".12">
     <div class="wrap delay">
       <div>
         <p class="label rise">Why it matters</p>
         <p class="big rise">Mars is up to <em>22 minutes</em> away. Each way.</p>
-        <p class="lede rise">On long missions, the crew has to notice problems and act on them before the ground can answer.</p>
       </div>
       <div class="rise">
         <ul class="legs">
@@ -103,7 +104,7 @@
           <li><span>The Moon</span><b>1.3 s</b></li>
           <li><span>Mars</span><b>3–22 min</b></li>
         </ul>
-        <p class="legs-note">One-way radio delay, before blackouts when the Moon or the Sun is in the way.</p>
+        <p class="legs-note">One-way radio delay. The crew has to act first.</p>
       </div>
     </div>
   </section>
@@ -111,13 +112,13 @@
   <section class="sec">
     <div class="wrap">
       <p class="label rise">Tested before flight</p>
-      <h2 class="h2 rise">Caught every event in 50 test missions.</h2>
+      <h2 class="h2 rise">Tested on 50 missions.</h2>
       <div class="stats">
-        <div class="stat rise"><b>100%</b><span>of injected events caught across 50 synthetic missions</span></div>
-        <div class="stat rise" style="--d:.1s"><b>1.0 day</b><span>average time from an event starting to its first flag, on the demo mission</span></div>
-        <div class="stat rise" style="--d:.2s"><b>0.36</b><span>false alarms per 30 days across the 50 missions</span></div>
+        <div class="stat rise"><b>100%</b><span>of events caught</span></div>
+        <div class="stat rise" style="--d:.1s"><b>1.0 day</b><span>from onset to first flag</span></div>
+        <div class="stat rise" style="--d:.2s"><b>0.36</b><span>false alarms per 30 days</span></div>
       </div>
-      <p class="fine rise">Synthetic data only. No public day-by-day astronaut dataset exists, so Pulsar is scored on simulated 180-day missions with an infection, a sleep shift, a treadmill outage and a period of isolation. Rerun it yourself on the app's Validation tab.</p>
+      <p class="fine rise">Simulated 180-day missions, as no public day-by-day astronaut data exists. Rerun it in the app.</p>
     </div>
   </section>
 
@@ -126,16 +127,17 @@
       <div>
         <p class="label rise">Demo</p>
         <h2 class="h2 rise">See it in 30 seconds.</h2>
-        <p class="lede rise">A comms blackout, a fever flagged on day 51, one checklist step, and a signed handover that rejects a tampered copy.</p>
+        <p class="lede rise">Blackout, alert, checklist, signed handover.</p>
       </div>
       <video class="rise" src="media/demo.mp4" poster="media/demo-poster.jpg" controls playsinline preload="none" aria-label="Pulsar 30-second demo with burned-in English captions"></video>
     </div>
   </section>
 
   <section class="end">
+    <div class="horizon" aria-hidden="true"><img src="img/earth-limb.jpg" alt="" loading="lazy"></div>
     <div class="wrap">
       <p class="label rise">Try it now</p>
-      <p class="big rise">Open it on your phone. No install, no account.</p>
+      <p class="big rise">Try it on your phone.</p>
       <div class="ctas rise">
         <a class="btn solid" href="app/">Open the app <span class="arr">→</span></a>
         <a class="btn ghost" href="https://github.com/quantum-astronauts/pulsar">Source on GitHub</a>
