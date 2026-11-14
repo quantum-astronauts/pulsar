@@ -64,7 +64,8 @@ button { font-family: inherit; }
 .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: rgba(2, 4, 9, .62); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
 .top .wrap { z-index: auto; }
 .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px 4px; }
-.brand { display: flex; align-items: center; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; }
+.brand:hover b { color: var(--accent); }
 .brand svg { width: 36px; height: 36px; flex: none; }
 .brand b { font: 700 19px var(--display); font-stretch: 125%; letter-spacing: .14em; text-transform: uppercase; }
 .brand span { font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); border-left: 1px solid var(--line-2); padding-left: 12px; }
@@ -611,15 +612,23 @@ footer { border-top: 1px solid var(--line); padding-block: 18px 30px; color: var
 .tsel .lvkey span i { width: 14px; height: 10px; border-radius: 3px; }
 .ci .fields { grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: 22px 28px; }
 @media (max-width: 560px) { .tabs button { padding: 10px 2px 11px; gap: 4px; } .tl2 b { white-space: nowrap; } }
+
+.tpick { display: flex; flex-wrap: nowrap; align-items: center; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 26px; margin-bottom: 4px; -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent); mask-image: linear-gradient(90deg, #000 92%, transparent); }
+.tpick::-webkit-scrollbar { display: none; }
+.tpick button { flex: none; display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 999px; border: 1px solid transparent; background: none; color: var(--muted); font: 600 13.5px var(--body); cursor: pointer; white-space: nowrap; }
+.tpick button:hover { color: var(--ink); }
+.tpick button[aria-pressed="true"] { background: var(--ink); color: var(--void); }
+.tdiv { flex: none; width: 1px; height: 18px; background: var(--line-2); margin: 0 6px; }
+@media (min-width: 761px) { .tpick { flex-wrap: wrap; row-gap: 4px; overflow: visible; -webkit-mask-image: none; mask-image: none; } }
 </style>
 
 <canvas id="stars" aria-hidden="true"></canvas><div class="aurora" aria-hidden="true"><i></i><i></i></div>
 <header class="top">
   <div class="wrap bar">
-    <div class="brand">
+    <a class="brand" href="../" aria-label="Pulsar home page">
       <svg viewBox="0 0 512 512" aria-hidden="true"><defs><radialGradient id="pl-bg" cx="50%" cy="48%" r="72%"><stop offset="0" stop-color="#16264a"/><stop offset=".6" stop-color="#080f1e"/><stop offset="1" stop-color="#03060d"/></radialGradient><linearGradient id="pl-beamA" x1="256" y1="256" x2="470" y2="42" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9fd4ff" stop-opacity=".95"/><stop offset=".55" stop-color="#7cc4ff" stop-opacity=".35"/><stop offset="1" stop-color="#7cc4ff" stop-opacity="0"/></linearGradient><linearGradient id="pl-beamB" x1="256" y1="256" x2="42" y2="470" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9fd4ff" stop-opacity=".95"/><stop offset=".55" stop-color="#7cc4ff" stop-opacity=".35"/><stop offset="1" stop-color="#7cc4ff" stop-opacity="0"/></linearGradient><radialGradient id="pl-core"><stop offset="0" stop-color="#ffffff"/><stop offset=".3" stop-color="#d9eeff" stop-opacity=".9"/><stop offset="1" stop-color="#7cc4ff" stop-opacity="0"/></radialGradient><clipPath id="pl-tile"><rect width="512" height="512" rx="112"/></clipPath></defs><rect width="512" height="512" rx="112" fill="url(#pl-bg)"/><g clip-path="url(#pl-tile)"><g fill="#e9eef8"><circle cx="96" cy="112" r="3"/><circle cx="150" cy="70" r="2"/><circle cx="420" cy="330" r="2.5"/><circle cx="360" cy="440" r="2"/><circle cx="70" cy="300" r="2"/><circle cx="300" cy="80" r="1.6"/></g><path d="M256 256 L430 26 L486 82 Z" fill="url(#pl-beamA)"/><path d="M256 256 L82 486 L26 430 Z" fill="url(#pl-beamB)"/></g><ellipse cx="256" cy="256" rx="182" ry="60" transform="rotate(-24 256 256)" fill="none" stroke="#7cc4ff" stroke-opacity=".6" stroke-width="9"/><circle cx="256" cy="256" r="70" fill="url(#pl-core)" opacity=".7"/><path d="M62 272 H172 L202 216 L240 336 L272 148 L304 300 L324 272 H450" fill="none" stroke="#f4f7fc" stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/><circle cx="410" cy="170" r="19" fill="#ff7a3d"/></svg>
       <b>Pulsar</b><span>Crew Health Monitor</span>
-    </div>
+    </a>
     <div class="meta"><span class="tag on" id="offlineTag"></span></div>
   </div>
   <nav class="wrap tabs" id="tabs" role="tablist" aria-label="Views"></nav>
@@ -1349,15 +1358,15 @@ setInterval(() => { const l = $('pvtLeft'); if (l) l.textContent = Math.max(0, M
 const TREND_GROUPS = [['Mind', 'behavioral', ['sleep', 'mood', 'stress', 'social', 'pvt']], ['Heart', 'cardio', ['hr', 'bpsys', 'bpdia']], ['Immune', 'immune', ['temp']], ['Nutrition', 'nutrition', ['intake', 'weight', 'glucose']], ['Bone & muscle', 'bone', ['exercise']]];
 function viewTrends() {
   const k = S.metric, M = C.METRICS[k], ser = AN.series[k], p = ser[S.cur];
-  const pick = TREND_GROUPS.map(([name, area, keys]) => `<div class="tg"><span class="tgn">${ico(AREA[area].icon)}${name}</span><div class="tgb">${keys.map(m => {
+  const pick = TREND_GROUPS.map(([name, area, keys]) => keys.map(m => {
     const q = AN.series[m][S.cur], lv = q && q.mu != null ? q.level : 'x';
-    return `<button data-metric="${m}" aria-pressed="${m === k}"><i class="lvd lv${lv}"></i>${esc(C.METRICS[m].label.replace(/^Blood pressure \((\w+)\)$/, 'BP $1'))}</button>`; }).join('')}</div></div>`).join('');
+    return `<button data-metric="${m}" aria-pressed="${m === k}" title="${name}"><i class="lvd lv${lv}"></i>${esc(C.METRICS[m].label.replace(/^Blood pressure \((\w+)\)$/, 'BP $1').replace(' (fasting)', ''))}</button>`; }).join('')).join('<span class="tdiv"></span>');
   let j = S.cur; while (j >= 0 && ser[j].v == null) j--;
   const mu = p && p.mu != null ? p.mu : null, from = Math.max(0, S.cur - 29);
   const out = ser.slice(from, S.cur + 1).filter(q => q.level > 0).length;
   const word = !p || p.mu == null ? 'Learning' : LV[p.level];
   return tabHero('trends') +
-    `<section class="tpick"><div class="eyebrow">Pick a reading</div>${pick}</section>
+    `<nav class="tpick" aria-label="Choose a reading">${pick}</nav>
     <section class="tsel lv${p && p.mu != null ? p.level : 'x'}">
       <div class="tsh"><div><h2>${esc(M.label)}</h2><p class="why1">${esc(WHY[k] || '')}</p></div><span class="badge">${word}</span></div>
       <div class="stat">${j >= 0 ? `<div><b>${esc(C.fmt(k, ser[j].v))}</b><small>${S.entries[j].day === S.entries[S.cur].day ? 'today' : 'day ' + S.entries[j].day}</small></div>` : ''}${mu != null ? `<div class="vs"><b>${esc(C.fmt(k, mu))}</b><small>your normal</small></div>` : ''}<div class="vs"><b>${out}</b><small>flagged days, last 30</small></div></div>
