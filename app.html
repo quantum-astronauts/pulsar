@@ -36,7 +36,14 @@
 body { background: var(--void); color: var(--ink); font: 400 16px/1.5 var(--body); margin: 0; font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased; position: relative; overflow-x: hidden; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--void); }
 /* the photograph */
-.sky { position: absolute; inset: 0 0 auto; height: 760px; z-index: 0; overflow: hidden; pointer-events: none; }
+#stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.aurora { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.aurora i { position: absolute; width: 70vmax; height: 70vmax; border-radius: 50%; filter: blur(90px); opacity: .22; }
+.aurora i:first-child { background: radial-gradient(closest-side, #2a5aa8, transparent); top: -30vmax; right: -20vmax; animation: aur1 38s ease-in-out infinite alternate; }
+.aurora i:last-child { background: radial-gradient(closest-side, #5b2a8a, transparent); bottom: -40vmax; left: -25vmax; opacity: .16; animation: aur2 46s ease-in-out infinite alternate; }
+@keyframes aur1 { to { transform: translate(-18vmax, 14vmax) scale(1.15); } }
+@keyframes aur2 { to { transform: translate(16vmax, -12vmax) scale(1.1); } }
+.sky { display: none; }
 .sky::before { content: ""; position: absolute; inset: -4%; background: var(--sky) center 62% / cover no-repeat; opacity: .92; transform-origin: 30% 70%; }
 .sky::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(2, 4, 9, .45) 0%, rgba(2, 4, 9, .05) 30%, rgba(2, 4, 9, .25) 62%, var(--void) 100%), linear-gradient(90deg, rgba(2, 4, 9, .5) 0%, transparent 55%); }
 body.city { --sky: url("img/city-lights.jpg"); }
@@ -427,9 +434,101 @@ pre.out { font: 12px/1.5 ui-monospace, Menlo, monospace; overflow: auto; max-hei
 .lock form { max-width: 400px; width: 100%; display: grid; gap: 14px; background: rgba(10, 16, 28, .88); }
 footer { border-top: 1px solid var(--line); padding-block: 18px 30px; color: var(--muted); font-size: 13px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 @media (prefers-reduced-motion: reduce) { .switch .knob, .switch .knob::after { transition: none; } }
+
+/* ---------- tab header ---------- */
+.thero { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 22px 56px; align-items: end; padding-block: 40px 28px; border-bottom: 1px solid var(--line); }
+.thero .eyebrow { display: flex; align-items: center; gap: 12px; color: var(--accent); }
+.thero .eyebrow b { font: 800 13px var(--display); color: var(--void); background: var(--accent); border-radius: 6px; padding: 4px 7px; letter-spacing: .05em; }
+.thero h1 { font: 800 clamp(38px, 5vw, 66px)/.98 var(--display); font-stretch: 112%; letter-spacing: -.015em; margin: 16px 0 0; text-wrap: balance; }
+.flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 22px; font: 600 12px var(--display); font-stretch: 125%; letter-spacing: .16em; text-transform: uppercase; color: #56627a; }
+.flow i { font-style: normal; color: #3a4558; }
+.flow span.on { color: var(--accent); }
+.thero .tr { margin: 0; display: grid; gap: 18px; }
+.thero dt { font: 600 11.5px var(--display); font-stretch: 125%; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+.thero dd { margin: 6px 0 0; font: 600 clamp(18px, 1.8vw, 22px)/1.3 var(--display); font-stretch: 102%; }
+.thero .tr > div:nth-child(2) dd { color: var(--accent); }
+@media (max-width: 860px) { .thero { grid-template-columns: 1fr; padding-top: 40px; } }
+
+/* ---------- status: verdict + orbit ---------- */
+.status2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px 48px; align-items: center; }
+.verdict .vw { text-shadow: 0 0 40px color-mix(in srgb, currentColor 45%, transparent); animation: vglow 3.2s ease-in-out infinite; }
+@keyframes vglow { 50% { text-shadow: 0 0 70px color-mix(in srgb, currentColor 70%, transparent); } }
+.verdict .ctx { margin-top: 22px; }
+.orbwrap { position: relative; text-align: center; }
+.orbit { width: 100%; max-width: 470px; height: auto; overflow: visible; }
+.orbit .ring1 { fill: none; stroke: rgba(124, 196, 255, .18); stroke-dasharray: 2 8; transform-origin: 0 0; animation: spin 40s linear infinite; }
+.orbit .ring2 { fill: none; stroke: rgba(124, 196, 255, .08); }
+.orbit .core { animation: corep 3.2s ease-in-out infinite; transform-origin: 0 0; }
+@keyframes corep { 50% { transform: scale(1.08); opacity: .7; } }
+.orbit .sat { transform-origin: 0 0; animation: spin 18s linear infinite; } .orbit .sat circle { fill: var(--signal); }
+.orbit .seg { cursor: pointer; }
+.orbit .arc-bg { fill: none; stroke: rgba(255, 255, 255, .05); stroke-width: 34; stroke-linecap: round; }
+.orbit .arc { fill: none; stroke: var(--st-mark, #56627a); stroke-width: 22; stroke-linecap: round; transition: stroke-width .2s; }
+.orbit .seg.lv0 .arc { --st-mark: var(--ok); } .orbit .seg.lv1 .arc { --st-mark: var(--watch); } .orbit .seg.lv2 .arc { --st-mark: var(--act); } .orbit .seg.lvx .arc { --st-mark: #3a4558; }
+.orbit .seg.lv2 .arc { animation: arcp 2.4s ease-in-out infinite; }
+@keyframes arcp { 50% { stroke-width: 28; filter: drop-shadow(0 0 10px var(--act)); } }
+.orbit .seg:hover .arc, .orbit .seg.sel .arc { stroke-width: 30; }
+.orbit .seg:focus { outline: none; } .orbit .seg:focus-visible .arc-bg { stroke: rgba(124, 196, 255, .35); }
+.orbit .nm { font: 700 16px var(--display); font-stretch: 108%; fill: var(--ink); }
+.orbit .st { font: 600 11px var(--display); font-stretch: 125%; letter-spacing: .14em; text-transform: uppercase; fill: var(--muted); }
+.orbit .seg.lv2 .st { fill: var(--act); } .orbit .seg.lv1 .st { fill: var(--watch); } .orbit .seg.lv0 .st { fill: var(--ok); }
+.orbit .cn { font: 800 64px var(--display); font-stretch: 112%; fill: var(--ink); }
+.orbit .cl { font: 600 12px var(--display); font-stretch: 125%; letter-spacing: .22em; text-transform: uppercase; fill: var(--muted); }
+.orbwrap .hint { margin: 0; color: #56627a; font-size: 13px; }
+@media (max-width: 900px) { .status2 { grid-template-columns: 1fr; } }
+
+/* ---------- open, box-free sections ---------- */
+.today { gap: clamp(40px, 6vw, 72px); padding-top: 24px; }
+.feature { border: 0; border-radius: 0; background: none; padding: 32px 0 0; border-top: 1px solid var(--line-2); position: relative; }
+.feature::before { content: ""; position: absolute; left: 0; top: -1px; width: 120px; height: 2px; background: var(--st-mark, var(--accent)); box-shadow: 0 0 18px var(--st-mark, var(--accent)); }
+.feature h2 { font-size: clamp(32px, 4.4vw, 52px); }
+.checks { gap: 0; }
+.checks label { border: 0; border-bottom: 1px solid var(--line); border-radius: 0; padding: 14px 2px; }
+.checks label:hover { background: none; }
+.checks label:has(input:checked) { background: none; color: var(--muted); }
+.checks input { appearance: none; -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--line-2); display: grid; place-items: center; cursor: pointer; transition: background .2s, border-color .2s; }
+.checks input:checked { background: var(--ok); border-color: var(--ok); }
+.checks input:checked::after { content: ""; width: 6px; height: 11px; border: solid var(--void); border-width: 0 2.5px 2.5px 0; transform: translateY(-1px) rotate(45deg); }
+.olist { gap: 0; border-top: 1px solid var(--line-2); }
+.orow { border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: none; }
+.orow summary { padding: 18px 2px; }
+.orow summary::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--st-mark); flex: none; order: -1; }
+.orow summary .icon-sq { display: none; }
+.orow .t b { font-size: 18px; }
+.orow[open] { background: linear-gradient(90deg, color-mix(in srgb, var(--st-mark) 8%, transparent), transparent 60%); }
+.orow .obody { padding: 0 2px 20px 24px; }
+.next2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line-2); }
+.next2 > div { display: grid; gap: 10px; justify-items: start; padding: 26px 24px 4px 0; }
+.next2 > div + div { border-left: 1px solid var(--line); padding-left: 28px; }
+.next2 b { font: 700 clamp(19px, 2vw, 24px)/1.25 var(--display); }
+.next2 .okw { color: var(--ok); }
+@media (max-width: 700px) { .next2 { grid-template-columns: 1fr; } .next2 > div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); } }
+.chips3 { justify-content: center; }
+#moreActs { width: auto; border: 0; background: none; color: var(--accent); padding: 16px 2px; justify-content: flex-start; font-weight: 700; }
+#moreActs:hover { text-decoration: underline; }
+
+/* ---------- attention animations (first render only) ---------- */
+#vw.fresh .fchart .ew { stroke-dasharray: 1; stroke-dashoffset: 1; animation: drawl 1.6s .3s cubic-bezier(.6, .1, .2, 1) forwards; }
+@keyframes drawl { to { stroke-dashoffset: 0; } }
+.fchart .pt.hot { animation: hotp 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes hotp { 50% { transform: scale(1.7); opacity: .6; } }
+#vw.fresh .status2, #vw.fresh .feature, #vw.fresh .block, #vw.fresh .next2 { animation: riseIn .8s cubic-bezier(.2, .7, .2, 1) both; }
+#vw.fresh .feature { animation-delay: .12s; } #vw.fresh .block { animation-delay: .2s; } #vw.fresh .next2 { animation-delay: .28s; }
+#vw.fresh .thero h1 { animation: riseIn .8s cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes riseIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .orbit *, .verdict .vw, .fchart .pt.hot, .aurora i { animation: none !important; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- remaining panels: glass with a glowing gradient edge ---------- */
+.card, .panel { border: 1px solid transparent; border-radius: 22px; padding: 26px 28px;
+  background: linear-gradient(160deg, rgba(20, 32, 56, .62), rgba(6, 11, 21, .62)) padding-box,
+              linear-gradient(150deg, rgba(124, 196, 255, .42), rgba(255, 255, 255, .05) 38%, rgba(255, 255, 255, .03) 70%, rgba(255, 122, 61, .28)) border-box;
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 24px 60px rgba(0, 0, 0, .35); }
+.thero { margin-bottom: 32px; }
+.today > .block .card { box-shadow: none; }
 </style>
 
-<div class="sky" aria-hidden="true"></div>
+<canvas id="stars" aria-hidden="true"></canvas><div class="aurora" aria-hidden="true"><i></i><i></i></div>
 <header class="top">
   <div class="wrap bar">
     <div class="brand">
@@ -442,7 +541,7 @@ footer { border-top: 1px solid var(--line); padding-block: 18px 30px; color: var
 </header>
 <div id="strip"></div>
 <main class="wrap" id="main"><div class="head"><div><p class="lead">Loading mission data…</p></div></div></main>
-<footer class="wrap"><span>Decision support only. Pulsar does not diagnose and is not a medical device.</span><span>Earth imagery: NASA, ISS027-E-012224 and ISS030-E-055569</span><span>All mission data is synthetic. Code written with AI assistance (Anthropic Claude).</span><span>NASA Space Apps 2026 · Team Quantum Astronauts (Sydney)</span></footer>
+<footer class="wrap"><span>Decision support only. Pulsar does not diagnose and is not a medical device.</span><span>All mission data is synthetic. Code written with AI assistance (Anthropic Claude).</span><span>NASA Space Apps 2026 · Team Quantum Astronauts (Sydney)</span></footer>
 <div class="toast" id="toast" hidden></div>
 <div class="lock" id="lock" hidden>
   <form id="unlockForm" class="card">
@@ -459,6 +558,23 @@ footer { border-top: 1px solid var(--line); padding-block: 18px 30px; color: var
 <script src="core.js"></script>
 <script>
 'use strict';
+// Starfield: twinkling stars at three depths that drift as you scroll, plus the odd shooting star.
+(function () {
+  const cv = document.getElementById('stars'); if (!cv || !cv.getContext) return;
+  const ctx = cv.getContext('2d'), calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W = 0, H = 0, stars = [], shoot = null, next = 4000;
+  const size = () => { const r = Math.min(2, devicePixelRatio || 1); W = innerWidth; H = innerHeight; cv.width = W * r; cv.height = H * r; ctx.setTransform(r, 0, 0, r, 0, 0);
+    stars = Array.from({ length: Math.round(W * H / 4800) }, () => { const z = Math.random(); return { x: Math.random() * W, y: Math.random() * H, z, r: .4 + z * 1.2, p: Math.random() * 6.3, s: .5 + Math.random() * 1.6 }; }); };
+  const draw = t => {
+    ctx.clearRect(0, 0, W, H); const sc = scrollY;
+    for (const s of stars) { const y = ((s.y - sc * (.03 + s.z * .12)) % H + H) % H; ctx.globalAlpha = (calm ? .7 : .3 + .7 * (.5 + .5 * Math.sin(t / 1000 * s.s + s.p))) * (.4 + s.z * .6); ctx.fillStyle = s.z > .85 ? '#cfe9ff' : '#fff'; ctx.beginPath(); ctx.arc(s.x, y, s.r, 0, 6.283); ctx.fill(); }
+    if (!calm) { if (!shoot && t > next) shoot = { x: W * (.3 + Math.random() * .6), y: H * Math.random() * .4, t };
+      if (shoot) { const k = (t - shoot.t) / 900; if (k > 1) { shoot = null; next = t + 6000 + Math.random() * 8000; } else { const x = shoot.x - k * 380, y = shoot.y + k * 160, g = ctx.createLinearGradient(x, y, x + 130, y - 55); g.addColorStop(0, 'rgba(255,255,255,.85)'); g.addColorStop(1, 'rgba(124,196,255,0)'); ctx.globalAlpha = Math.sin(k * Math.PI); ctx.strokeStyle = g; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 130, y - 55); ctx.stroke(); } } }
+    ctx.globalAlpha = 1;
+  };
+  size(); addEventListener('resize', size);
+  if (calm) { draw(0); addEventListener('scroll', () => draw(0), { passive: true }); } else { const loop = t => { draw(t); requestAnimationFrame(loop); }; requestAnimationFrame(loop); }
+})();
 const C = window.Core;
 const S = { entries: [], events: [], seed: 7, demo: true, done: {}, view: 'status', cur: 0, profile: 'iss', area: null, showEvents: true, metric: 'sleep',
   aesKey: null, salt: null, packet: null, draft: null, multi: null, windowDays: 14, verdict: null, verifyText: '' };
@@ -721,7 +837,7 @@ function metricChart(key) {
   }
   const real = pts.filter(p => p.v != null);
   real.forEach(p => { s += `<circle class="raw" cx="${X(p.d)}" cy="${Y(p.v)}" r="2.4"/>`; });
-  if (real.length > 1) s += `<path class="ew" d="M${real.map(p => `${X(p.d)},${Y(p.ew)}`).join('L')}"/>`;
+  if (real.length > 1) s += `<path class="ew" pathLength="1" d="M${real.map(p => `${X(p.d)},${Y(p.ew)}`).join('L')}"/>`;
   real.filter(p => p.level).forEach(p => { s += `<circle class="f${p.level}" cx="${X(p.d)}" cy="${Y(p.ew)}" r="4.6"/>`; });
   if (ents[cur]) s += `<line class="now" x1="${X(ents[cur].day)}" x2="${X(ents[cur].day)}" y1="${Pd.t}" y2="${H - Pd.b}"/>`;
   return s + '</svg>';
@@ -850,6 +966,48 @@ function telemetry(title, sub) {
 }
 
 
+
+// ---------- tab headers: what each tab is for, and why to use it ----------
+const TABINFO = {
+  status: ['01', 'Today', 'How am I doing?', 'Your health today, against your own normal.', 'Catch problems early, before they need a doctor.'],
+  checkin: ['02', 'Check in', "Log today's readings", 'Two minutes of measurements each morning.', 'Pulsar can only check what you log.'],
+  trends: ['03', 'Trends', 'How has it changed?', 'Every reading across the mission.', "Slow changes you'd never notice day to day."],
+  handover: ['04', 'Handover', 'Tell Mission Control', 'A signed health summary for the ground.', "They can't see your data live. Tampering shows."],
+  more: ['05', 'More', 'Tools and background', 'Reaction test, guide, validation, privacy.', 'Go deeper when you need to.'],
+};
+function tabHero(key, aside) {
+  const [n, tab, title, what, why] = TABINFO[key];
+  const flow = ['checkin', 'status', 'handover'].map(k => `<span class="${k === key ? 'on' : ''}">${TABINFO[k][1]}</span>`).join('<i>→</i>');
+  return `<section class="thero"><div class="tl"><div class="eyebrow"><b>${n}</b>${tab}${S.entries.length && key !== 'checkin' && S.entries[S.cur] ? ` · day ${S.entries[S.cur].day}` : ''}</div><h1>${esc(title)}</h1>
+      <div class="flow" aria-label="The daily loop">${flow}</div></div>
+    <dl class="tr"><div><dt>What it's for</dt><dd>${esc(what)}</dd></div><div><dt>Why use it</dt><dd>${esc(why)}</dd></div>${aside ? `<div class="ta">${aside}</div>` : ''}</dl></section>`;
+}
+
+// ---------- health orbit: the five areas as arcs around a core ----------
+const ORBIT_NAME = { bone: 'Bone & muscle', cardio: 'Heart', immune: 'Immune', nutrition: 'Nutrition', behavioral: 'Mind' };
+function healthOrbit(row, cov, n) {
+  const R = 132, pol = (a, r) => [Math.cos(a * Math.PI / 180) * r, Math.sin(a * Math.PI / 180) * r];
+  const seg = C.AREA_KEYS.map((a, k) => {
+    const a0 = -90 + k * 72 + 11, a1 = a0 + 50, [x0, y0] = pol(a0, R), [x1, y1] = pol(a1, R), mid = (a0 + a1) / 2;
+    const [lx, ly] = pol(mid, R + 46), cls = areaCls(row, cov, a);
+    const anchor = Math.abs(lx) < 30 ? 'middle' : lx > 0 ? 'start' : 'end';
+    const st = row.lv[a] ? LV[row.lv[a]] : cov[a].state === 'missing' ? 'No data' : cov[a].state === 'learning' ? 'Learning' : LV[0];
+    return `<g class="seg lv${cls}${S.area === a ? ' sel' : ''}" data-area="${a}" tabindex="0" role="button" aria-label="${esc(AREA[a].name)}: ${st}. Show details">
+      <path class="arc-bg" d="M${x0.toFixed(1)} ${y0.toFixed(1)}A${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}"/>
+      <path class="arc" d="M${x0.toFixed(1)} ${y0.toFixed(1)}A${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}"/>
+      <text x="${lx.toFixed(1)}" y="${(ly - 4).toFixed(1)}" text-anchor="${anchor}" class="nm">${ORBIT_NAME[a]}</text>
+      <text x="${lx.toFixed(1)}" y="${(ly + 15).toFixed(1)}" text-anchor="${anchor}" class="st">${st}</text></g>`;
+  }).join('');
+  return `<svg class="orbit" viewBox="-250 -215 500 430" role="group" aria-label="Your five health areas">
+    <defs><radialGradient id="orb-core"><stop offset="0" stop-color="#cfe9ff" stop-opacity=".55"/><stop offset=".5" stop-color="#7cc4ff" stop-opacity=".12"/><stop offset="1" stop-color="#7cc4ff" stop-opacity="0"/></radialGradient></defs>
+    <circle class="ring1" r="96"/><circle class="ring2" r="168"/>
+    <circle class="core" r="92" fill="url(#orb-core)"/>
+    <g class="sat"><circle r="5" cx="168" cy="0"/></g>
+    ${seg}
+    <text class="cn" y="12" text-anchor="middle">${n}</text><text class="cl" y="40" text-anchor="middle">${n === 1 ? 'alert' : 'alerts'}</text>
+  </svg>`;
+}
+
 // ---------- plain-language layer: why each alert matters, and which reading to chart ----------
 const WHY = {
   fever: 'Likely infection. It can spread through a closed cabin.',
@@ -902,7 +1060,8 @@ function focusChart(key) {
     s += `<text class="lab" x="${W - padR + 8}" y="${Y(lb.mu) + 4}">your normal</text>`;
   }
   s += `<path class="ew" d="M${real.map(p => `${X(p.d)},${Y(p.ew)}`).join('L')}"/>`;
-  s += real.map(p => `<circle class="pt lv${p.level}" cx="${X(p.d)}" cy="${Y(p.v)}" r="${p.level ? 4.5 : 3}"/>`).join('');
+  const hot = real.filter(p => p.level).pop();
+  s += real.map(p => `<circle class="pt lv${p.level}${p === hot ? ' hot' : ''}" cx="${X(p.d)}" cy="${Y(p.v)}" r="${p.level ? 4.5 : 3}"/>`).join('');
   const last = real[real.length - 1];
   s += `<text class="lab now" x="${W - padR + 8}" y="${Y(last.ew) + 4}">${esc(C.fmt(key, last.ew))}</text>`;
   s += `<text class="ax" x="${padL}" y="${H - 6}">Day ${d0}</text><text class="ax" x="${X(d1)}" y="${H - 6}" text-anchor="end">Day ${d1}</text></svg>`;
@@ -926,21 +1085,17 @@ function viewStatus() {
   const flags = row.flags.slice().sort((x, y) => y.level - x.level || (CLIN.includes(x.id) ? 0 : 1) - (CLIN.includes(y.id) ? 0 : 1));
   const top = flags[0], rest = flags.slice(1);
 
-  // 1. What Pulsar is, in one line
-  let introHidden = false; try { introHidden = localStorage.getItem('pulsar.intro') === 'hidden'; } catch (e) { /* optional */ }
-  const intro = introHidden ? '' : `<section class="intro">
-    <p class="ione">Daily health checks for astronauts, <em>far from a doctor.</em></p>
-    <ol class="how3"><li><span class="icon-sq">${ico('clip')}</span>Log readings</li><li><span class="icon-sq">${ico('activity')}</span>Compare to your normal</li><li><span class="icon-sq">${ico('check')}</span>Act on what's flagged</li></ol>
-    <button class="x" id="hideIntro" aria-label="Hide">${ico('x')}</button></section>`;
-
-  // 2. The verdict, with a one-line colour key
+  // 1-2. Header, then status: the verdict on the left, the health orbit on the right
   const word = n ? LV[overall] : gaps.length ? 'Incomplete' : learn.length ? 'Learning' : LV[0];
   const ocls = n ? overall : gaps.length || learn.length ? 'x' : 0;
   const say = n ? `${esc(top.title)}${rest.length ? ` <span>+ ${rest.length} more</span>` : ''}`
     : gaps.length ? `Missing: ${esc(list(missingAll))}` : learn.length ? 'Learning your normal' : 'Everything is normal for you';
-  const verdict = `<section class="verdict lv${ocls}"><div class="eyebrow">Day ${S.entries[i].day} · status</div>
-    <div class="vw"><span class="dot"></span>${esc(word)}</div><p class="vsay">${say}</p>
-    <div class="lvkey"><span class="lv0"><i></i>All clear: normal</span><span class="lv1"><i></i>Watch: drifting</span><span class="lv2"><i></i>Act: do something today</span></div></section>`;
+  const verdict = `<section class="status2"><div class="verdict lv${ocls}"><div class="eyebrow">Status today</div>
+      <div class="vw"><span class="dot"></span>${esc(word)}</div><p class="vsay">${say}</p>
+      <div class="lvkey"><span class="lv0"><i></i>All clear: normal</span><span class="lv1"><i></i>Watch: drifting</span><span class="lv2"><i></i>Act: do something today</span></div>
+      ${demoContext()}</div>
+    <div class="orbwrap">${healthOrbit(row, cov, n)}<p class="hint">Tap an area</p></div></section>`;
+  const intro = '';
 
   // 3. The most important thing: the number, the chart, the steps
   const metricOf = f => CHART_OF[f.id] || (C.METRICS[f.id] ? f.id : null);
@@ -953,7 +1108,7 @@ function viewStatus() {
     const ser = AN.series[m]; let j = i; while (j >= 0 && ser[j].v == null) j--;
     if (j < 0) return '';
     const mu = ser[i].mu != null ? ser[i].mu : ser[j].mu;
-    return `<div class="stat"><div><b>${esc(C.fmt(m, ser[j].v))}</b><small>${S.entries[j].day === S.entries[i].day ? 'today' : 'day ' + S.entries[j].day}</small></div>${mu != null ? `<div class="vs"><b>${esc(C.fmt(m, mu))}</b><small>your normal</small></div>` : ''}</div>`;
+    return `<div class="stat"><div><b class="countup" data-v="${ser[j].v}" data-dp="${C.METRICS[m].dp}">${esc(C.fmt(m, ser[j].v))}</b><small>${S.entries[j].day === S.entries[i].day ? 'today' : 'day ' + S.entries[j].day}</small></div>${mu != null ? `<div class="vs"><b>${esc(C.fmt(m, mu))}</b><small>your normal</small></div>` : ''}</div>`;
   };
   let feature = '';
   if (top) {
@@ -972,26 +1127,18 @@ function viewStatus() {
     <div class="olist">${(S.allActs ? rest : rest.slice(0, 3)).map(f => { const cl = checklist(f); return `<details class="orow lv${f.level}" data-act="${esc(f.id)}" ${S.openAct === f.id ? 'open' : ''}><summary><span class="icon-sq">${ico(FICO[f.id] || 'alert')}</span><span class="t"><b>${esc(f.title)}</b><small>${esc(f.short || '')}</small></span><span class="badge">${LV[f.level]}</span><span class="cnt">${cl.done}/${cl.total}</span></summary>
       <div class="obody"><p>${esc(why(f))}</p>${cl.html}${recheckForm(f)}</div></details>`; }).join('')}${rest.length > 3 ? `<button class="btn block" id="moreActs">${S.allActs ? 'Show fewer' : `+ ${rest.length - 3} more`}</button>` : ''}</div></section>` : '';
 
-  // 5. Which parts of the body
-  const areas = C.AREA_KEYS.map(a => {
-    const lv = row.lv[a], fl = row.flags.filter(f => f.areas.includes(a)), c = cov[a];
-    const cls = lv ? lv : c.state === 'ok' ? 0 : 'x', badge = lv ? LV[lv] : c.state === 'missing' ? 'No data' : c.state === 'learning' ? 'Learning' : LV[0];
-    const line = fl.length ? esc(fl.map(f => f.title).slice(0, 2).join(' · ')) : c.state === 'missing' ? `No ${esc(list(c.missing))} logged` : c.state === 'learning' ? 'Learning your normal' : 'Normal for you';
-    return `<article class="card area mini lv${cls}${S.area === a ? ' sel' : ''}" data-area="${a}" title="${line}"><div class="ah"><span class="icon-sq">${ico(AREA[a].icon)}</span><h3>${esc(AREA[a].name)}</h3><span class="badge">${badge}</span></div></article>`;
-  }).join('');
-  const detail = S.area && SYS[S.area] ? `<div style="margin-top:14px">${sysDetail(S.area, row, cov)}</div>` : '';
-  const body = `<section class="block"><div class="sec"><h2>Where in the body</h2><span class="note">Tap for details</span></div>
-    <div class="bodymap"><div class="figure">${bodyMap(row, cov)}</div><div class="areas">${areas}</div></div>${detail}</section>`;
+  const detail = S.area && SYS[S.area] ? `<section class="block">${sysDetail(S.area, row, cov)}</section>` : '';
+  const body = '';
 
   // 6. How Pulsar decides, plus what's next
   const R = C.routine(AN, i), due = R.tasks.filter(t => t.state === 'due' || t.state === 'overdue');
   const method = `<section class="chips3"><span>${ico('target')}Your normal, not an average</span><span>${ico('activity')}Flags drift, not one bad day</span><span>${ico('alert')}Medical limits flag instantly</span></section>`;
-  const next = `<section class="block next2">
-    <div class="card"><div class="eyebrow">Due today</div>${due.length ? `<p>${due.map(t => esc(t.label)).join(', ')}</p><button class="btn primary" data-go="checkin">${ico('clip')}Check in</button>` : `<p class="big2">All done</p><small class="muted">${R.streak}-day streak</small>`}</div>
-    <div class="card"><div class="eyebrow">Radio link back?</div><p>Send Mission Control a signed summary.</p><button class="btn" data-go="handover">${ico('radio')}Prepare handover</button></div></section>`;
+  const next = `<section class="next2">
+    <div><span class="eyebrow">Due today</span>${due.length ? `<b>${due.map(t => esc(t.label)).join(', ')}</b><button class="btn primary" data-go="checkin">${ico('clip')}Check in</button>` : `<b class="okw">All done · ${R.streak}-day streak</b>`}</div>
+    <div><span class="eyebrow">Radio link back?</span><b>Send a signed summary</b><button class="btn" data-go="handover">${ico('radio')}Prepare handover</button></div></section>`;
 
   const empty = !n ? (gaps.length ? `<section class="feature lvx"><div class="eyebrow">Next step</div><h2>Log the missing readings</h2><button class="btn primary" style="margin-top:14px" data-go="checkin">${ico('clip')}Open check-in</button></section>` : '') : '';
-  return `<div class="today">${intro}${demoContext()}${verdict}${feature}${empty}${others}${body}${method}${next}</div>`;
+  return tabHero('status') + `<div class="today">${verdict}${detail}${feature}${empty}${others}${method}${next}</div>`;
 }
 
 function lastLogged(k) { const e = [...S.entries].reverse().find(x => (k === 'ared' ? x[k] != null : C.num(x[k]) != null)); return e ? e[k] : null; }
@@ -1017,7 +1164,7 @@ function viewCheckin() {
   if (!S.draft) S.draft = { day: (last.day || 0) + 1, sleep: null, exercise: null, ared: null, hr: null, weight: null, temp: null, bpsys: null, bpdia: null, glucose: null, intake: null,
     mood: null, stress: null, social: null, symptoms: null, pvt: null, lapses: null, note: '' };
   const d = S.draft, R = C.routine(AN, S.entries.length - 1, d.day), due = id => { const t = R.tasks.find(x => x.id === id); return t.state === 'due' || t.state === 'overdue' ? 'due today' : `next due day ${t.next}`; };
-  return head(`Mission day ${d.day}`, 'Check in', 'About two minutes. Skip anything you didn\'t measure.') +
+  return tabHero('checkin') +
     `<form id="checkinForm" class="layout"><div class="card">
       <div class="num-h"><span class="n">01</span><h2>Body</h2><button type="button" class="same" data-guide="g-ind">How to measure</button></div>
       <div class="fields">
@@ -1101,7 +1248,7 @@ setInterval(() => { const l = $('pvtLeft'); if (l) l.textContent = Math.max(0, M
 function viewTrends() {
   const M = C.METRICS[S.metric], p = AN.series[S.metric][S.cur];
   const segs = C.METRIC_KEYS.map(k => `<button data-metric="${k}" aria-pressed="${k === S.metric}">${ico(MICO[k])}${esc(C.METRICS[k].label)}</button>`).join('');
-  return head(`Mission day ${S.entries[S.cur].day}`, 'Trends', 'Line leaves the band? Pulsar flags it.') +
+  return tabHero('trends') +
     `<div class="seg" style="margin-bottom:16px">${segs}</div>
     <section class="panel"><div class="row" style="justify-content:space-between"><div><div class="eyebrow">Telemetry</div><h2 style="margin-top:6px">${esc(M.label)}</h2></div>
       ${p && p.mu != null ? `<span class="badge lv${p.level}">${LV[p.level]}</span>` : ''}</div>
@@ -1155,7 +1302,7 @@ async function viewHandover() {
   const p = S.packet;
   const v = S.verdict;
   const keys = subtle ? await trusted().catch(() => []) : [];
-  return head('When ground contact returns', 'Handover', 'A signed summary for Mission Control. Tampering shows.') +
+  return tabHero('handover') +
     `<div class="grid2" style="align-items:start">
     <section class="card stack" style="gap:16px"><div><div class="eyebrow">Crew side</div><h2 style="font-size:22px;margin-top:6px">Build and sign</h2></div>
       <ol class="steps"><li><span class="n">1</span>Choose the reporting window</li></ol>
@@ -1226,7 +1373,7 @@ function viewGuide() {
 
 function viewMore() {
   const tile = (v, icon, t, sub) => `<button class="card tile" data-go="${v}"><span class="icon-sq">${ico(icon)}</span><span><b>${t}</b><small>${sub}</small></span></button>`;
-  return head('More', 'Tools and background', '') +
+  return tabHero('more') +
     `<div class="tiles">
       ${tile('pvt', 'zap', 'Reaction test', 'A 60-second alertness check, every third day')}
       ${tile('guide', 'book', 'Guide', 'How to measure, and when to act')}
@@ -1244,7 +1391,13 @@ async function render() {
   const html = empty ? head('New personal log', 'Log your first check-in', 'Your personal baseline forms after about 20 daily check-ins.') +
       `<div class="row"><button class="btn primary lg" data-go="checkin">${ico('clip')}Start check-in</button><button class="btn lg" id="loadDemo">Load the demo mission</button></div>` : await VIEWS[S.view]();
   $('strip').innerHTML = !empty && S.demo && (S.view === 'status' || S.view === 'trends') ? demoStrip() : '';
-  $('main').innerHTML = `<div id="vw">${html}</div>`;
+  $('main').innerHTML = `<div id="vw" class="fresh">${html}</div>`;
+  clearTimeout(render.t); render.t = setTimeout(() => { const v = $('vw'); if (v) v.classList.remove('fresh'); }, 2200);
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.querySelectorAll('#vw .countup').forEach(el => {
+    const to = +el.dataset.v, dp = +el.dataset.dp, unit = el.textContent.replace(/^[-\d.,\s]+/, ''), t0 = performance.now();
+    const step = t => { const k = Math.min(1, (t - t0) / 1100), e = 1 - Math.pow(1 - k, 3); el.textContent = (to * e).toFixed(dp) + (unit ? (unit.startsWith('%') ? '' : ' ') + unit.trim() : ''); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  });
 }
 // Slider drags redraw only the view below it, so the slider keeps its grip.
 function renderView() {
