@@ -16,6 +16,6 @@ head = ('<!doctype html><html lang="en"><head><meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'
         '<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><meta name="theme-color" content="#020409">\n'
         '</head><body>\n')
-pathlib.Path('index.html').write_text(head + body + '\n</body></html>\n')
+pathlib.Path('app/index.html').write_text(head + body + '\n</body></html>\n')
 PY
 echo "Built index.html (self-contained)"

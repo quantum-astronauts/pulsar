@@ -5,7 +5,7 @@
 NASA Space Apps 2026 · Challenge: *Create Health Monitoring Software for Astronauts on Space Missions*
 Team Quantam Astronauts (Sydney) — Shah & Kai, Macquarie University
 
-**Live app:** https://quantum-astronauts.github.io/pulsar/ (works offline once loaded; all data is synthetic)
+**Website:** https://quantum-astronauts.github.io/pulsar/ · **App:** https://quantum-astronauts.github.io/pulsar/app/ (works offline once loaded; all data is synthetic)
 
 Pulsar is an offline-first PWA that closes the loop the brief asks for:
 **collect → evaluate → act → hand over.**
@@ -48,22 +48,22 @@ Decision support only. Not a medical device and does not diagnose.
 
 ## Quick start
 
-Open `index.html` in Chrome, Edge or Firefox. It is self-contained (code and photos built in), so it works even opened straight from the zip. Only offline install needs a web host, as below.
+Open `app/index.html` in Chrome, Edge or Firefox. It is self-contained (code and photos built in), so it works even opened straight from the zip. Only offline install needs a web host, as below.
 
 ## Run
 
 ```bash
-./build.sh                      # app.html + core.js + img/ -> self-contained index.html
+./build.sh                      # app.html + core.js + img/ -> self-contained app/index.html
 python3 -m http.server 8000     # then open http://localhost:8000
 ```
 Deploy the folder to any static host over HTTPS (e.g. GitHub Pages) to make it installable and offline. `#status`, `#trends`, `#validation`, `#handover` deep-link to tabs.
 
-Files: `core.js` (generator, detector, rules, scoring, handover — pure JS, Node-testable), `app.html` (UI, storage, crypto), `sw.js`, `manifest.webmanifest`, `icon.svg`.
+Files: `core.js` (generator, detector, rules, scoring, handover — pure JS, Node-testable), `app.html` (UI, storage, crypto), `app/sw.js`, `app/manifest.webmanifest`, `app/icon.svg`. The website is `index.html` (landing) and `contact/`, styled by `assets/`.
 
 ## Use of AI (Super Intelligence) tools
 
 - **Anthropic Claude (Claude Code)** wrote the code in `core.js` and `app.html`: interface and styling, drift detector, rule logic, synthetic mission generator, validation harness, WebCrypto signing and encryption, and the headless-browser scripts that recorded the demo. It also drafted this README and the project page text. The team chose the challenge and the ideas (personal-baseline drift detection, act-and-handover loop, signed and encrypted data, the risk panels, the reaction test, synthetic validation), directed every change, and reviewed and tested the result. Code files carry this disclosure in a header comment and an `ai-assistance` meta tag.
-- **Pulsar logo and banner** (`brand/`, `icon.svg`) were drawn as SVG and HTML code by Claude, directed by the team: a pulsar's twin beams and orbit with a heartbeat trace. No image-generation model was used.
+- **Pulsar logo and banner** (`brand/`, `app/icon.svg`) and the website (`index.html`, `contact/`, `assets/`) were drawn as SVG and HTML code by Claude, directed by the team: a pulsar's twin beams and orbit with a heartbeat trace. No image-generation model was used.
 - **CrewRelay** (the blackout clip at the start of the demo video) was built with ChatGPT's help. Its lunar backdrop was made with OpenAI image generation and is labelled "AI-generated" on screen in the video.
 - No AI-generated images are used in Pulsar itself. The Earth photos are real NASA imagery.
 
