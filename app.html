@@ -1545,6 +1545,7 @@ function renderView() {
   const day = S.entries[S.cur].day;
   if ($('mdNow')) $('mdNow').textContent = `Day ${day} of ${S.entries[S.entries.length - 1].day}`;
   document.querySelectorAll('[data-jump]').forEach(b => { const ev = S.events.find(e => String(e.start + 3) === b.dataset.jump); if (ev) b.setAttribute('aria-pressed', String(day >= ev.start && day <= ev.end + 3)); });
+  $('vw').classList.remove('fresh'); // updates in place never replay the opening animations
   $('vw').innerHTML = fn();
 }
 function go(view) { S.view = view; try { localStorage.setItem('pulsar.view', view); } catch (e) { /* optional */ } render(); window.scrollTo(0, 0); }
