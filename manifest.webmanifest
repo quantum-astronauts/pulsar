@@ -1,0 +1,11 @@
+{
+  "name": "Pulsar: Crew Health Monitor",
+  "short_name": "Pulsar",
+  "description": "Offline health monitoring for astronauts: personal-baseline drift detection, action checklists and signed Mission Control handovers.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#090e19",
+  "theme_color": "#111a2b",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
