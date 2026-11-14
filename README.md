@@ -25,7 +25,7 @@ Five health areas informed by NASA's spaceflight hazards: **bone & muscle, cardi
 |---|---|
 | Gather health indicators, any input | Check-in with steppers, scales and chips; reaction test by click, tap or Space |
 | Evaluate and act on health status | Personal-baseline drift detector + clinical lines → Nominal / Watch / Act, each with a checklist |
-| Human figure with clickable body parts | **Health orbit** on the Today screen: the five health areas (bone & muscle, heart, immune, nutrition, mind) as arcs coloured by status, with Act arcs pulsing; tap one for what that system does, what space does to it, your readings and how to prevent problems |
+| Human figure with clickable body parts | **Health astronaut** on the Today screen: a cartoon astronaut whose visor (mind), shoulder shield (immune), chest heart (heart), belt (nutrition) and limbs (bone & muscle) light up by status, with Act parts pulsing; tap one for what that system does, what space does to it, your readings and how to prevent problems |
 | Prompt measurements as part of the routine | **Mission routine** card: what is done, due or overdue today (temperature daily, BP every 2nd day, reaction test every 3rd, SLAMMD mass and fasting glucose weekly) |
 | Gamification | Check-in streak and a weekly score for measurements taken |
 | Dynamic charts | Trends tab: EWMA line against your ±2 SD personal band, events overlaid |
@@ -92,7 +92,7 @@ All mission data in Pulsar is **synthetic**: a seeded 180-day mission with four 
 - CrewRelay clip: Inter font (SIL OFL 1.1, bundled); lunar backdrop AI-generated (OpenAI).
 
 ## 3-minute demo script
-1. **Today** opens on mission day 51: the infection. Show the status word, the health orbit and the fever alert: 38.1 °C against a normal of 36.7 °C, with the chart and checklist.
+1. **Today** opens on mission day 51: the infection. Show the status word, the health astronaut and the fever alert: 38.1 °C against a normal of 36.7 °C, with the chart and checklist.
 2. Drag the **replay** slider through the mission. Jump to the treadmill outage, then isolation.
 3. **Trends**: the shaded band is *your* normal; the dots are where drift crossed the control limit.
 4. **Reaction test**: run the 1-minute version live.
