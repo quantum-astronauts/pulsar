@@ -3,6 +3,8 @@
 NASA Space Apps 2026 · Challenge: *Create Health Monitoring Software for Astronauts on Space Missions*
 Team Quantam Astronauts (Sydney) — Shah & Kai, Macquarie University
 
+**Live app:** https://quantum-astronauts.github.io/pulsar/ (works offline once loaded; all data is synthetic)
+
 Pulsar is an offline-first PWA that closes the loop the brief asks for:
 **collect → evaluate → act → hand over.**
 
