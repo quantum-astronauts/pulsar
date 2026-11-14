@@ -1,3 +1,5 @@
+![Pulsar: Crew Health Monitor](brand/banner.png)
+
 # Pulsar: Crew Health Monitor
 
 NASA Space Apps 2026 · Challenge: *Create Health Monitoring Software for Astronauts on Space Missions*
@@ -61,6 +63,7 @@ Files: `core.js` (generator, detector, rules, scoring, handover — pure JS, Nod
 ## Use of AI (Super Intelligence) tools
 
 - **Anthropic Claude (Claude Code)** wrote the code in `core.js` and `app.html`: interface and styling, drift detector, rule logic, synthetic mission generator, validation harness, WebCrypto signing and encryption, and the headless-browser scripts that recorded the demo. It also drafted this README and the project page text. The team chose the challenge and the ideas (personal-baseline drift detection, act-and-handover loop, signed and encrypted data, the risk panels, the reaction test, synthetic validation), directed every change, and reviewed and tested the result. Code files carry this disclosure in a header comment and an `ai-assistance` meta tag.
+- **Pulsar logo and banner** (`brand/`, `icon.svg`) were drawn as SVG and HTML code by Claude, directed by the team: a pulsar's twin beams and orbit with a heartbeat trace. No image-generation model was used.
 - **CrewRelay** (the blackout clip at the start of the demo video) was built with ChatGPT's help. Its lunar backdrop was made with OpenAI image generation and is labelled "AI-generated" on screen in the video.
 - No AI-generated images are used in Pulsar itself. The Earth photos are real NASA imagery.
 
